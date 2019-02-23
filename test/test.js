@@ -1,4 +1,5 @@
 var map = require('../models/map');
+var mware = require('../middleware/middleware');
 
 var test = {};
 test.createSampleMap = () => {
@@ -43,6 +44,9 @@ test.createSampleMap = () => {
             if (err) console.log('Error in creating map: '+err);
         }
     )
+}
+test.findSampleCenter = () => {
+    console.log(mware.findCenter(['5,6','6,5','7,9']))
 }
 
 module.exports = test;
