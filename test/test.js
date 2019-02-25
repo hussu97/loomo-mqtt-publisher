@@ -1,4 +1,5 @@
 var map = require('../models/map');
+var user = require('../models/user');
 var mware = require('../middleware/middleware');
 
 var test = {};
@@ -42,6 +43,21 @@ test.createSampleMap = () => {
             ]
         }, (err, newMap) => {
             if (err) console.log('Error in creating map: '+err);
+        }
+    )
+}
+test.createSampleUser = () => {
+    user.create(
+        {
+            entity : 'loomo',
+            id   : 'w2i0wi20',
+            currentLocation : {
+                coordinates : '5.6,9.8',
+                mapName : 'SampleMap'
+            }
+
+        }, (err, newUser) => {
+            if (err) console.log('Error in creating user: '+err);
         }
     )
 }

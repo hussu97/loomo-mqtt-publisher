@@ -4,7 +4,7 @@ var mqtt  = require('mqtt'),
     C     = require('./constants'),
     test  = require('./test/test'),
     mware = require('./middleware/middleware'),
-    TEST  = false,
+    TEST  = true,
     ERROR = true;
 
 var options = {
@@ -23,7 +23,8 @@ var options = {
 var client = mqtt.connect('mqtt://m24.cloudmqtt.com', options);
 
 if(TEST){
-    //test.createSampleMap();
+    test.createSampleMap();
+    test.createSampleUser();
     //test.findSampleCenter();
 }
 
