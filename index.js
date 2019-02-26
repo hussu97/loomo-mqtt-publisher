@@ -1,11 +1,12 @@
-var mqtt  = require('mqtt'),
-    fs    = require('fs'),
-    map   = require('./models/map'),
-    C     = require('./constants'),
-    test  = require('./test/test'),
-    mware = require('./middleware/middleware'),
-    TEST  = true,
-    ERROR = true;
+var mqtt            = require('mqtt'),
+    map             = require('./models/map'),
+    C               = require('./constants'),
+    test            = require('./test/test'),
+    mware           = require('./middleware/middleware'),
+    loomoMessenger  = require('./routes/loomo'),
+    mobileMessenger = require('./routes/mobile'),
+    TEST            = false,
+    ERROR           = true;
 
 var options = {
     port: 17852 ,
@@ -31,55 +32,8 @@ if(TEST){
 client.on('connect', (packetInfo) => { // When connected
     mware.writeLog(new Date().toString() + ' Connected to MQTT Server');
 
-    // subscribe to a topic
-    client.subscribe(`${C.L2S}/#`);
-    client.subscribe(`${C.M2S}/#`);
-
-    client.on('message', (topic, message, packet) => {
-        mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
-        switch(topic){
-            case `${C.M2S}/${C.beaconSignals}`:
-                var msg = {
-                    status : 'available',
-                    userID : 'bbbbb',
-                    userXPosition : '4.5',
-                    userYPosition : '4.67',
-                    loomoXPosition : '4.99',
-                    loomoYPosition : '6.79',
-                    loomoID : 'aaaaa'
-                };
-                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoStatus}` + "'");
-                client.publish(`${C.S2M}/${C.loomoStatus}`, JSON.stringify(msg), ()=>{});
-                // dummy publish, should come from Loomo itself
-                client.publish(`${C.L2S}/${C.loomoArrival}`, JSON.stringify({status: 'arrived'}), () => {});
-                break;
-
-            case `${C.M2S}/${C.userDestination}`:
-                var msg = JSON.parse(message);
-                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoArrival}` + "'");
-                client.publish(`${C.S2M}/${C.userDestination}`,JSON.stringify(msg), ()=> {});
-                client.publish(`${C.S2L}/${C.userDestination}`,JSON.stringify(msg), ()=> {});
-                break;
-
-            case `${C.M2S}/${C.loomoDismissal}`:
-                if(ERROR){
-                    var msg = {
-                        type : 'loomo-dismissal',
-                        message : 'loomo could not be dismissed'
-                    };
-                    mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.errorRoute}` + "'");
-                    client.publish(`${C.S2M}/${C.errorRoute}`, JSON.stringify(msg), ()=>{});
-                }
-                break;
-
-            case `${C.L2S}/${C.loomoArrival}`:
-                var msg = JSON.parse(message);
-                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
-                client.publish(`${C.S2M}/${C.loomoArrival}`, JSON.stringify(msg), ()=>{});
-                break;
-
-        }
-    });
+    loomoMessenger.run(client,mware);
+    mobileMessenger.run(client,mware);
 
     // publish a message to a topic
     // client.publish(`${C.M2S}/${C.userInfo}`, 'my message', function(err) {
