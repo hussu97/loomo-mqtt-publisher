@@ -77,6 +77,10 @@ client.on('connect', (packetInfo) => { // When connected
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
                 client.publish(`${C.S2M}/${C.loomoArrival}`, JSON.stringify(msg), ()=>{});
                 break;
+            case `${C.L2S}/${C.loomoArrival}`:
+            var msg = JSON.parse(message);
+            mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
+            break;
 
         }
     });
