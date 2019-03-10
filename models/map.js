@@ -1,5 +1,4 @@
-var mongoose     = require('mongoose'),
-    beaconSchema = require('./beacons');
+var mongoose     = require('mongoose');
 
 mongoose.connect("mongodb://localhost/senior-design", { useNewUrlParser: true });
 
@@ -43,7 +42,7 @@ var MapSchema = new mongoose.Schema({
         required : true
     },
     doors : [doorSchema],
-    beacons : [beaconSchema],
+    beaconIDs : [String],
     obstacles : [obstacleSchema]
 });
 

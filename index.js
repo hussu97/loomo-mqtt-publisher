@@ -5,7 +5,7 @@ var mqtt            = require('mqtt'),
     mware           = require('./middleware/middleware'),
     loomoMessenger  = require('./routes/loomo'),
     mobileMessenger = require('./routes/mobile'),
-    TEST            = false,
+    TEST            = true,
     ERROR           = true;
 
 var options = {
@@ -24,8 +24,9 @@ var options = {
 var client = mqtt.connect('mqtt://m24.cloudmqtt.com', options);
 
 if(TEST){
-    test.createSampleMap();
-    test.createSampleUser();
+    // test.createSampleMap();
+    // test.createSampleUser();
+    //test.createSampleBeacons();
     //test.findSampleCenter();
 }
 
@@ -33,16 +34,8 @@ client.on('connect', (packetInfo) => { // When connected
     mware.writeLog(new Date().toString() + ' Connected to MQTT Server');
     loomoMessenger.run(client,mware);
     mobileMessenger.run(client,mware);
-
-    // publish a message to a topic
-    // client.publish(`${C.M2S}/${C.userInfo}`, 'my message', function(err) {
-    //     if(err){
-    //         console.log('publish error: '+err)
-    //     }
-    //     console.log("Message is published");
-    //     //client.end(); // Close the connection when published
-    // });
 });
+
 client.on("error", (error) => { 
-    console.log("Can't connect"+error);
+    mware.writeLog("MQTT server error: "+error);
 });

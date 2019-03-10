@@ -11,8 +11,10 @@ var UserSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    status : String,
     currentLocation : {
-        coorindates : String,
+        x_coorindate : Number,
+        y_coordinate : Number,
         timestamp : {
             type : Number,
             default : Date.now
