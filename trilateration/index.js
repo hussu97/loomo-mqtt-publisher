@@ -26,10 +26,21 @@ BTTrilat.getDistance = (rssiArray) => {
     return KalmanArray[KalmanArray.length-1];
 }
 
-BTTrilat.signalToDistance = (rssiSignal) => {
-    const tXPower = -57
-    const n = 2.25
-    return Math.pow(10,(tXPower-rssiSignal)/(10*n));
+BTTrilat.signalToDistance = (beaconID,rssiSignal) => {
+    const beacons = {
+        "5812ca89ff64bf356564f5ee641f6f1b" : -62,
+        "3c52a5930c34db229451868164d7fc13" : -54,
+        "59bfdda585767280f886db284653ee35" : -67,
+        "e158516ea666f214c38d5464c5440d1f" : -57
+    }
+    if(beacons[beaconID]){
+        const tXPower = beacons[beaconID];
+    }
+    else{
+        const tXPower = -57;
+    }
+    const n = 2
+    return Math.pow(10,(tXPower-rssiSignal)/(10*n))*100;
 }
 
 BTTrilat.findCenter = (points) => {
@@ -51,31 +62,36 @@ BTTrilat.getBeacon = (beaconID) =>{
     return beaconDB.findOne({id: beaconID}).exec();
 }
 
-BTTrilat.run = (JSONStr) => {
-    var JSONObj = JSON.parse(JSONStr);
-    var signalsData = JSONObj.BeaconSignals;
+BTTrilat.run = (JSONMessage) => {
+    var signalsData = JSONMessage.beaconSignals;
     beaconArray = [];
+    return new Promise((resolve,reject) => {
+        resolve({x: 1, y: 1, map: "SampleMap"});
+    });
     return new Promise((resolve, reject) => {
         for(var p in signalsData){
             Object.keys(signalsData[p]).forEach( (beaconID) => {
                 var currentBeacon = new beaconObj(beaconID);
                 var arrays = signalsData[p][beaconID];
                 var signal = BTTrilat.getDistance(JSON.parse(arrays));
-                console.log("Value: "+signal);
-                currentBeacon.setRadius(BTTrilat.signalToDistance(signal));
+
+                currentBeacon.setRadius(BTTrilat.signalToDistance(currentBeacon.id,signal));
+                
                 beaconFromDBPromise = BTTrilat.getBeacon(currentBeacon.id);
                 beaconFromDBPromise.then((beaconFromDB) => {
                     cornerCoords = []
                     for (i in cornerKeys){
                         cornerCoords.push(beaconFromDB.corners[i])
                     }
+
                     currentBeacon.setHeight(beaconFromDB.height);
                     currentBeacon.setCoordinates(BTTrilat.findCenter(cornerCoords));
                     currentBeacon.setMapName(beaconFromDB.mapName);
+                    
                     beaconArray.push(currentBeacon);
                     if(beaconArray.length===signalsData.length){
-                        //BTTrilat.findIntersection(beaconArray);
-                        resolve(BTTrilat.findPosition(beaconArray), {map: currentBeacon.map});
+                        BTTrilat.findIntersection(beaconArray);
+                        resolve(BTTrilat.findPosition(beaconArray), "hello");
                     }
                 });
             });
@@ -90,12 +106,11 @@ BTTrilat.findIntersection = (beaconArray) => {
         shape("circle",{cx : beaconArray[1].x, cy: beaconArray[1].y, r : beaconArray[1].radius}),
         shape("circle",{cx : beaconArray[2].x, cy: beaconArray[2].y, r : beaconArray[2].radius})
     );
-    console.log("Intersections are: "+intersections);
+    console.log("Intersections are: "+JSON.stringify(intersections));
 }
 
 BTTrilat.findPosition = (beaconArray) => {
     beaconTriLat = []
-    console.log(beaconArray);
     for(i in beaconArray){
         var x = beaconArray[i].x;
         var y = beaconArray[i].y;
@@ -104,8 +119,6 @@ BTTrilat.findPosition = (beaconArray) => {
             new Circle(new Vector(x,y),distance)
         )
     }
-   
-  // Laterating
   return laterate(beaconTriLat);
 }
 

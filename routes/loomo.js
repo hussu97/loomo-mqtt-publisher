@@ -1,4 +1,6 @@
-var C = require('../constants');
+var C = require('../constants'),
+    userDB = require('../models/user'),
+    mapDB = require('../models/map');
 var loomoMessenger = {}
 
 loomoMessenger.run = (client, mware) => {
@@ -8,6 +10,28 @@ loomoMessenger.run = (client, mware) => {
         if(topic.startsWith(`${C.L2S}`))
             mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
         switch(topic){
+            case `${C.L2S}/${C.getMap}`:
+                mapDB.findOne({name: "SampleMap"}, (err, map) => {
+                    var msg = {
+                        loomoID : message.id,
+                        map : map
+                    }
+                    client.publish(`${C.S2L}/${C.getMap}`, JSON.stringify(msg), () => {});
+                    mware.writeLog(new Date.toString() + " Sent '"+ JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.getMap}`);
+                });
+                break;
+            case `${C.L2S}/${C.routeToUser}`:
+                var msg = {
+                    status : 'available',
+                    loomoID : message.loomoID
+                }
+                userDB.findOneAndUpdate({id: message.loomoID}, {status: 'unavailable'}, {new: true})
+                .exec()
+                .then((err, updatedUser) => {
+                    client.publish(`${C.S2M}/${C.loomoStatus}`,JSON.stringify(msg), () => {});
+                    mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoStatus}` + "'");
+                });
+                break;
             case `${C.L2S}/${C.loomoArrival}`:
                 var msg = JSON.parse(message);
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");

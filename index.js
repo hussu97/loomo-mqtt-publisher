@@ -24,8 +24,8 @@ var options = {
 var client = mqtt.connect('mqtt://m24.cloudmqtt.com', options);
 
 if(TEST){
-    // test.createSampleMap();
-    // test.createSampleUser();
+    //test.createSampleMap();
+    //test.createSampleUser();
     //test.createSampleBeacons();
     //test.findSampleCenter();
 }

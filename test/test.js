@@ -19,6 +19,21 @@ test.createSampleMap = () => {
         }
     )
 }
+
+test.createBeaconObj = (id, mapName, height, corner) => {
+    return {
+        id : id,
+        mapName : mapName,
+        height : height,
+        corners : {
+            0 : corner,
+            1 : corner,
+            2 : corner,
+            3 : corner
+        }
+    };
+}
+
 test.createSampleBeacons = () => {
     beacon.create(
         [{
@@ -64,7 +79,12 @@ test.createSampleBeacons = () => {
                 2 : '1,10',
                 3 : '1,10'
             } 
-        }], (err, newBeacons) => {
+        }, 
+        test.createBeaconObj("59bfdda585767280f886db284653ee35", "SampleMap", 24.56, '4,5'),
+        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", "SampleMap", 24.56, '1,5'),
+        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", "SampleMap", 24.56, '2,5'),
+        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", "SampleMap", 24.56, '6,5')
+        ], (err, newBeacons) => {
             if(err) console.log('Error in creating beacons: '+err);
         }
     )
