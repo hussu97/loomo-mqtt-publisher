@@ -68,7 +68,9 @@ mobileMessenger.run = (client, mware) => {
                                     //TODO
                                     //remove next 2 lines
                                     client.publish(`${C.S2M}/${C.loomoStatus}`,JSON.stringify(tmpMsg), () => {});
-                                    client.publish(`${C.S2M}/${C.loomoArrival}`, "", () => {});
+                                    // setTimeout(() => {
+                                    //     client.publish(`${C.S2M}/${C.loomoArrival}`, "loomo here", () => {});
+                                    // }, 3000);
                                     client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
                                 } else {
@@ -84,7 +86,6 @@ mobileMessenger.run = (client, mware) => {
                 break;
 
             case `${C.M2S}/${C.userDestination}`:
-                var msg = JSON.parse(message);
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoArrival}` + "'");
                 client.publish(`${C.S2L}/${C.userDestination}`,JSON.stringify(msg), ()=> {});
                 client.publish(`${C.S2M}/${C.userDestination}`,JSON.stringify(msg), () => {});
@@ -92,11 +93,13 @@ mobileMessenger.run = (client, mware) => {
 
             case `${C.M2S}/${C.loomoDismissal}`:
                 var msg = {
-                    type : 'loomo-dismissal',
-                    message : 'loomo was successdfully dismissed'
+                    loomoID : JSONMessage.loomoID
                 };
-                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoDismissal}` + "'");
-                client.publish(`${C.S2M}/${C.loomoDismissal}`, JSON.stringify(msg), ()=>{});
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoDismissal}` + "'");
+                client.publish(`${C.S2L}/${C.loomoDismissal}`, JSON.stringify(msg), ()=>{});
+                //TODO
+                //remove next line
+                client.publish(`${C.L2S}/${C.loomoDismissal}`, JSON.stringify(msg), ()=>{});
                 break;
         }
     });
