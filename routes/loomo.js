@@ -40,7 +40,7 @@ loomoMessenger.run = (client, mware) => {
             case `${C.L2S}/${C.beaconSignals}`:
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
                 break;
-            case `${C.L2S}/${C.loomoDismissal}`:
+            case `${C.L2S}/${C.loomoDismiss}`:
                 userDB.findByIdAndUpdate({id : JSONMessage.loomoID}, {status: 'available'}, {new:true})
                 .exec()
                 .then((err,newLoomo) => {
@@ -48,6 +48,10 @@ loomoMessenger.run = (client, mware) => {
                 }).catch((err) => {
                     console.log(err);
                 });
+                break;
+            case `${C.L2S}/${C.userDestination}`:
+                
+                break;
         }
     });
 }

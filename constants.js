@@ -9,7 +9,7 @@ module.exports = {
     beaconSignals : 'beacon-signals',
     loomoStatus : 'loomo-status',
     loomoArrival : 'loomo-arrival',
-    loomoDismissal : 'loomo-dismissal',
+    loomoDismiss : 'loomo-dismiss',
     userDestination : 'user-destination',
     loomoCall : 'loomo-call',
     errorRoute : 'error',

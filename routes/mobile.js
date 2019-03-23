@@ -86,6 +86,7 @@ mobileMessenger.run = (client, mware) => {
                 break;
 
             case `${C.M2S}/${C.userDestination}`:
+                client.publish(`${C.S2M}/${C.loomoArrival}`, "loomo here", () => {});
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoArrival}` + "'");
                 client.publish(`${C.S2L}/${C.userDestination}`,JSON.stringify(msg), ()=> {});
                 client.publish(`${C.S2M}/${C.userDestination}`,JSON.stringify(msg), () => {});
