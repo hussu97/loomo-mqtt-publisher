@@ -43,7 +43,12 @@ var MapSchema = new mongoose.Schema({
     },
     doors : [doorSchema],
     beaconIDs : [String],
-    obstacles : [obstacleSchema]
+    obstacles : [obstacleSchema],
+    timeStamp : {
+        type : Number,
+        required : true,
+        default : Date.now
+    }
 });
 
 module.exports = mongoose.model("Map",MapSchema);

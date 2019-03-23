@@ -13,14 +13,16 @@ var UserSchema = new mongoose.Schema({
     },
     status : String,
     currentLocation : {
-        x_coorindate : Number,
+        x_coordindate : Number,
         y_coordinate : Number,
         timestamp : {
             type : Number,
             default : Date.now
         },
         accuracy : Number,
-        mapName : String
+        mapName : String,
+        destination : String,
+        mode : String
     }
 });
 

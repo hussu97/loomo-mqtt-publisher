@@ -4,6 +4,7 @@ module.exports = {
     M2S : 'mobile-to-server',
     S2M : 'server-to-mobile',
     getMap : 'get-map',
+    sendMap : 'send-map',
     userInfo : 'user-info',
     userError : 'user-error',
     beaconSignals : 'beacon-signals',

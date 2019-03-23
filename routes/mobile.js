@@ -18,20 +18,20 @@ mobileMessenger.run = (client, mware) => {
                         //what cells you are covering, if using proximity beacon
                         //TODO
                         if(user) {
-                            userDB.findOneAndUpdate({id: JSONMessage.clientID}, 
-                                {
-                                    currentLocation : {
-                                        x_coordinate : response.x,
-                                        y_coordinate : response.y,
-                                        timestamp : Date.now(),
-                                        mapName : response.map
-                                    },
-                                    destination : JSONMessage.destination,
-                                    mode : JSONMessage.mode
-                                }, {new: true}, (err, updatedUser) => {})
+                            userDB.findOneAndUpdate({id: JSONMessage.clientID}, {       
+                                currentLocation : {
+                                    x_coordinate : response.x,
+                                    y_coordinate : response.y,
+                                    timestamp : Date.now(),
+                                    mapName : response.map
+                                },
+                                destination : JSONMessage.destination,
+                                mode : JSONMessage.mode
+                            }, {new: true})
+                            .exec()
+                            .then((updatedUser) => {});
                         } else {
-                            const newUser = new userDB(
-                                {
+                            const newUser = new userDB({
                                     id : JSONMessage.clientID,
                                     entity : "client",
                                     currentLocation : {
@@ -44,10 +44,7 @@ mobileMessenger.run = (client, mware) => {
                                     mode : JSONMessage.mode
                                 }
                             );
-                            newUser.save((err) => {
-                                if(err) console.log(err);
-                                else console.log(newUser);
-                            })
+                            newUser.save((err) => { if(err) console.log(err); });
                         }
                         userDB.findOne({status: 'available'})
                             .exec()
@@ -65,12 +62,6 @@ mobileMessenger.run = (client, mware) => {
                                         status : 'available',
                                         loomoID : loomo.id
                                     }
-                                    //TODO
-                                    //remove next 2 lines
-                                    client.publish(`${C.S2M}/${C.loomoStatus}`,JSON.stringify(tmpMsg), () => {});
-                                    // setTimeout(() => {
-                                    //     client.publish(`${C.S2M}/${C.loomoArrival}`, "loomo here", () => {});
-                                    // }, 3000);
                                     client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
                                 } else {
@@ -98,9 +89,6 @@ mobileMessenger.run = (client, mware) => {
                 };
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoDismissal}` + "'");
                 client.publish(`${C.S2L}/${C.loomoDismissal}`, JSON.stringify(msg), ()=>{});
-                //TODO
-                //remove next line
-                client.publish(`${C.L2S}/${C.loomoDismissal}`, JSON.stringify(msg), ()=>{});
                 break;
         }
     });
