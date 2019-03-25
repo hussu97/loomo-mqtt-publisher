@@ -55,7 +55,8 @@ loomoMessenger.run = (client, mware) => {
             case `${C.L2S}/${C.routeToUser}`:
                 var msg = {
                     status : 'available',
-                    loomoID : JSONMessage.loomoID
+                    loomoID : JSONMessage.loomoID,
+                    clientID : JSONMessage.clientID
                 }
                 userDB.findOneAndUpdate({id: JSONMessage.loomoID}, {status: 'unavailable'}, {new: true})
                 .exec()
@@ -66,22 +67,20 @@ loomoMessenger.run = (client, mware) => {
                 break;
 
             case `${C.L2S}/${C.loomoArrival}`:
+                var msg = {
+                    loomoID : JSONMessage.loomoID,
+                    clientID : JSONMessage.clientID,
+                }
+                console.log(JSONMessage.x_coordinate);
+                console.log(JSONMessage.y_coordinate);
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
                 client.publish(`${C.S2M}/${C.loomoArrival}`, JSON.stringify(msg), ()=>{});
                 break;
 
+            //TODO
+            //Remove below routes as they are not being used
             case `${C.L2S}/${C.beaconSignals}`:
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
-                break;
-
-            case `${C.L2S}/${C.loomoDismiss}`:
-                userDB.findByIdAndUpdate({id : JSONMessage.loomoID}, {status: 'available'}, {new:true})
-                .exec()
-                .then((err,newLoomo) => {
-                    console.log(newLoomo.status);
-                }).catch((err) => {
-                    console.log(err);
-                });
                 break;
 
             case `${C.L2S}/test-VLS-service`:

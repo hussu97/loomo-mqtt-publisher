@@ -2,6 +2,7 @@ var map      = require('../models/map'),
     user     = require('../models/user'),
     mware    = require('../middleware/middleware'),
     beacon   = require('../models/beacons'),
+    tour     = require('../models/tours'),
     BTTrilat = require('../trilateration/index');
 
 var test = {};
@@ -13,7 +14,63 @@ test.createSampleMap = () => {
             cellHeight : 4,
             rows : 15,
             columns : 25,
-            beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b']
+            beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
+            destinations : [
+                {
+                    name : 'EB1-103',
+                    corners : {
+                        0 : '1,1',
+                        1 : '1,1',
+                        2 : '1,1',
+                        3 : '1,1'
+                    }
+                },
+                {
+                    name : 'EB1-104',
+                    corners : {
+                        0 : '1,1',
+                        1 : '1,1',
+                        2 : '1,1',
+                        3 : '1,1'
+                    }
+                },
+                {
+                    name : 'EB1-105',
+                    corners : {
+                        0 : '1,1',
+                        1 : '1,1',
+                        2 : '1,1',
+                        3 : '1,1'
+                    }
+                },
+                {
+                    name : 'EB1-106',
+                    corners : {
+                        0 : '1,1',
+                        1 : '1,1',
+                        2 : '1,1',
+                        3 : '1,1'
+                    }
+                },
+                {
+                    name : 'EB1-107',
+                    corners : {
+                        0 : '1,1',
+                        1 : '1,1',
+                        2 : '1,1',
+                        3 : '1,1'
+                    }
+                },
+                {
+                    name : 'EB1-108',
+                    corners : {
+                        0 : '1,1',
+                        1 : '1,1',
+                        2 : '1,1',
+                        3 : '1,1'
+                    }
+                }
+            ]
         }, (err, newMap) => {
             if (err) console.log('Error in creating map: '+err);
         }
@@ -101,6 +158,24 @@ test.createSampleUser = () => {
 
         }, (err, newUser) => {
             if (err) console.log('Error in creating user: '+err);
+        }
+    )
+}
+test.createSampleTour = () => {
+    tour.create(
+        {
+            name : 'Demo Tour',
+            mapName : 'SampleMap',
+            destinations : [
+                {
+                    destinationName : 'EB1-103',
+                    speech : 'Here is EB1-103'
+                },
+                {
+                    destinationName : 'EB1-106',
+                    speech : 'Here is not EB1-103, but it is in fact EB1-106'
+                }
+            ]
         }
     )
 }

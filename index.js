@@ -28,6 +28,7 @@ if(TEST){
     //test.createSampleUser();
     //test.createSampleBeacons();
     //test.findSampleCenter();
+    //test.createSampleTour();
 }
 
 client.on('connect', (packetInfo) => { // When connected

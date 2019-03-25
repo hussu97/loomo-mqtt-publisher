@@ -20,6 +20,21 @@ var obstacleSchema = new mongoose.Schema({
         3 : String
     }
 });
+
+var destinationSchema = new mongoose.Schema({
+    name : {
+        type : String,
+        required : true
+    },
+    corners : {
+        0 : String,
+        1 : String,
+        2 : String,
+        3 : String
+    }
+
+})
+
 var MapSchema = new mongoose.Schema({
     name : {
         type : String,
@@ -48,7 +63,9 @@ var MapSchema = new mongoose.Schema({
         type : Number,
         required : true,
         default : Date.now
-    }
+    },
+    destinations : [destinationSchema],
+    loomoIDs : [String]
 });
 
 module.exports = mongoose.model("Map",MapSchema);

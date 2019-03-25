@@ -1,6 +1,7 @@
 var C = require('../constants'),
     BTTrilat = require('../trilateration/index'),
-    userDB = require('../models/user');
+    userDB = require('../models/user'),
+    mapDB = require('../models/map');
 
 var mobileMessenger = {}
 mobileMessenger.run = (client, mware) => {
@@ -10,8 +11,19 @@ mobileMessenger.run = (client, mware) => {
         var JSONMessage = JSON.parse(message);
         if(topic.startsWith(`${C.M2S}`))
             mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
-
         switch(topic){
+            case `${C.M2S}/${C.getMapDestinations}`:
+                mapDB.findOne({name : JSONMessage.mapName})
+                .exec()
+                .then((map) => {
+                    var msg = {
+                        clientID : JSONMessage.clientID,
+                        destination : map.destinations
+                    }
+                    client.publish(`${C.S2M}/${C.getMapDestinations}`, JSON.stringify(msg), () => {});
+                    mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.getMapDestinations}` + "'");
+                });
+                break;
             case `${C.M2S}/${C.beaconSignals}`:
                 userDB.findOne({id: JSONMessage.clientID}).exec().then((user) => {
                     BTTrilat.run(JSONMessage).then((response) => {
@@ -57,6 +69,10 @@ mobileMessenger.run = (client, mware) => {
                                         //center of user beacon response
                                         x_coordinate : 1,
                                         y_coordinate : 1,
+                                        //TODO add to database destinations
+                                        // and what beacon is covered under it
+                                        destinationBeaconID : JSONMessage.destination,
+                                        mode : JSONMessage.mode
                                     }
                                     var tmpMsg = {
                                         status : 'available',
@@ -65,7 +81,10 @@ mobileMessenger.run = (client, mware) => {
                                     client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
                                 } else {
-                                    var msg = {status: 'unavailable'};
+                                    var msg = {
+                                        clientID : JSONMessage.clientID,
+                                        status: 'unavailable'
+                                    };
                                     client.publish(`${C.S2M}/${C.loomoStatus}`, JSON.stringify(msg), () => {});
                                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoStatus}` + "'");
                                 }
@@ -76,19 +95,29 @@ mobileMessenger.run = (client, mware) => {
                 });           
                 break;
 
+            case `${C.M2S}/${C.loomoDismiss}`:
+                var msg = {
+                    loomoID : JSONMessage.loomoID,
+                    clientID : JSONMessage.clientID
+                };
+                userDB.findByIdAndUpdate({id : JSONMessage.loomoID}, {status: 'available'}, {new:true})
+                .exec()
+                .then((err,newLoomo) => {
+                    console.log(newLoomo.status);
+                }).catch((err) => {
+                    console.log(err);
+                });
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoDismissal}` + "'");
+                client.publish(`${C.S2L}/${C.loomoDismiss}`, JSON.stringify(msg), ()=>{});
+                break;
+
+            //TODO
+            // Route is unused so far, need to figure out what this is for
             case `${C.M2S}/${C.userDestination}`:
                 client.publish(`${C.S2M}/${C.loomoArrival}`, "loomo here", () => {});
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoArrival}` + "'");
                 client.publish(`${C.S2L}/${C.userDestination}`,JSON.stringify(msg), ()=> {});
                 client.publish(`${C.S2M}/${C.userDestination}`,JSON.stringify(msg), () => {});
-                break;
-
-            case `${C.M2S}/${C.loomoDismissal}`:
-                var msg = {
-                    loomoID : JSONMessage.loomoID
-                };
-                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoDismissal}` + "'");
-                client.publish(`${C.S2L}/${C.loomoDismissal}`, JSON.stringify(msg), ()=>{});
                 break;
         }
     });
