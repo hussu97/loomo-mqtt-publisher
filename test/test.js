@@ -70,6 +70,17 @@ test.createSampleMap = () => {
                         3 : '1,1'
                     }
                 }
+            ],
+            doors : [
+                {
+                    id : 'doorA',
+                    corners : {
+                        0 : '4,5',
+                        1 : '4,7',
+                        2 : '5,5',
+                        3 : '5,7'
+                    }
+                }
             ]
         }, (err, newMap) => {
             if (err) console.log('Error in creating map: '+err);

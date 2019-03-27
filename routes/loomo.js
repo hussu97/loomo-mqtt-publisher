@@ -1,6 +1,7 @@
 var C = require('../constants'),
     userDB = require('../models/user'),
-    mapDB = require('../models/map');
+    mapDB = require('../models/map'),
+    tourDB = require('../models/tours');
 var loomoMessenger = {}
 
 loomoMessenger.run = (client, mware) => {
@@ -34,8 +35,10 @@ loomoMessenger.run = (client, mware) => {
                 mapDB.findOne({name: JSONMessage.mapName})
                 .exec()
                 .then((newMap) => {
-                    console.log(newMap.timeStamp+" vs "+JSONMessage.timeStamp);
                     if(!JSONMessage.timeStamp || newMap.timeStamp > Number(JSONMessage.timeStamp)){
+                        if(JSONMessage.timeStamp){
+                            console.log(JSONMessage.timeStamp + " vs "+newMap.timeStamp);
+                        }
                         var msg = {
                             loomoID : JSONMessage.loomoID,
                             map : newMap,
@@ -77,6 +80,13 @@ loomoMessenger.run = (client, mware) => {
                 client.publish(`${C.S2M}/${C.loomoArrival}`, JSON.stringify(msg), ()=>{});
                 break;
 
+            case `${C.L2S}/${C.getTours}`:
+                tourDB.findOne({mapName: JSONMessage.mapName, name: JSONMessage.tourName})
+                .exec()
+                .then((tour) => {
+                    console.log(tour);
+                });
+                break;
             //TODO
             //Remove below routes as they are not being used
             case `${C.L2S}/${C.beaconSignals}`:

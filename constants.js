@@ -15,5 +15,6 @@ module.exports = {
     userDestination : 'user-destination',
     loomoCall : 'loomo-call',
     errorRoute : 'error',
-    routeToUser : 'route-to-user'
+    routeToUser : 'route-to-user',
+    getTours : 'get-tours'
 }

@@ -18,7 +18,7 @@ mobileMessenger.run = (client, mware) => {
                 .then((map) => {
                     var msg = {
                         clientID : JSONMessage.clientID,
-                        destination : map.destinations
+                        destinations : map.destinations
                     }
                     client.publish(`${C.S2M}/${C.getMapDestinations}`, JSON.stringify(msg), () => {});
                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.getMapDestinations}` + "'");
@@ -59,9 +59,17 @@ mobileMessenger.run = (client, mware) => {
                             newUser.save((err) => { if(err) console.log(err); });
                         }
                         userDB.findOne({status: 'available'})
-                            .exec()
-                            .then((loomo) => {
-                                if(loomo){
+                        .exec()
+                        .then((loomo) => {
+                            if(loomo){
+                                mapDB.findOne({name: loomo.currentLocation.mapName})
+                                .exec()
+                                .then((map) => {
+                                    destinationObj = map.destinations.find((element) => {
+                                        if(element.name == JSONMessage.destination){
+                                            return element;
+                                        }
+                                    })
                                     var msg = {
                                         clientID : JSONMessage.clientID,
                                         loomoID : loomo.id,
@@ -71,23 +79,21 @@ mobileMessenger.run = (client, mware) => {
                                         y_coordinate : 1,
                                         //TODO add to database destinations
                                         // and what beacon is covered under it
-                                        destinationBeaconID : JSONMessage.destination,
+                                        //TODO need to test this out
+                                        destinationBeaconID : destinationObj,
                                         mode : JSONMessage.mode
-                                    }
-                                    var tmpMsg = {
-                                        status : 'available',
-                                        loomoID : loomo.id
                                     }
                                     client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
-                                } else {
-                                    var msg = {
-                                        clientID : JSONMessage.clientID,
-                                        status: 'unavailable'
-                                    };
-                                    client.publish(`${C.S2M}/${C.loomoStatus}`, JSON.stringify(msg), () => {});
-                                    mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoStatus}` + "'");
-                                }
+                                });
+                            } else {
+                                var msg = {
+                                    clientID : JSONMessage.clientID,
+                                    status: 'unavailable'
+                                };
+                                client.publish(`${C.S2M}/${C.loomoStatus}`, JSON.stringify(msg), () => {});
+                                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoStatus}` + "'");
+                            }
                         });
                     }).catch((err) => {
                         console.log(err);
