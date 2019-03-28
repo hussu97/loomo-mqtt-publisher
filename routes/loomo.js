@@ -95,9 +95,12 @@ loomoMessenger.run = (client, mware) => {
 
             case `${C.L2S}/test-VLS-service`:
                 console.log('Speed: '+JSONMessage.speed+' and thetha '+JSONMessage.thetha);
+                break;
             case `${C.L2S}/${C.userDestination}`:
                 
                 break;
+            case `${C.L2S}/test-checkpoint`:
+                console.log('X value: '+JSONMessage.x_coordinate+' Y value: '+JSONMessage.y_coordinate+' thetha: '+JSONMessage.thetha+' isLast: '+JSONMessage.lastCheckpoint+ ' ID: '+JSONMessage.ID);
         }
     });
 }

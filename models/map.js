@@ -3,7 +3,7 @@ var mongoose     = require('mongoose');
 mongoose.connect("mongodb://localhost/senior-design", { useNewUrlParser: true });
 
 var doorSchema = new mongoose.Schema({
-    id : String,
+    name : String,
     corners : {
         0 : String,
         1 : String,
