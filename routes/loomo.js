@@ -87,6 +87,18 @@ loomoMessenger.run = (client, mware) => {
                     console.log(tour);
                 });
                 break;
+            case `${C.L2S}/${C.loomoDismiss}`:
+                userDB.findOneAndUpdate({id : JSONMessage.loomoID}, {status: 'available'}, {new:true})
+                .exec()
+                .then((newLoomo)=>{
+                    console.log(newLoomo.status);
+                });
+                var msg = {
+                    clientID : JSONMessage.clientID,
+                    loomoID : JSONMessage.loomoID
+                }
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoDismiss}` + "'");
+                break;
             //TODO
             //Remove below routes as they are not being used
             case `${C.L2S}/${C.beaconSignals}`:

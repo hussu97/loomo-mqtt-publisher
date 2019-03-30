@@ -106,14 +106,14 @@ mobileMessenger.run = (client, mware) => {
                     loomoID : JSONMessage.loomoID,
                     clientID : JSONMessage.clientID
                 };
-                userDB.findByIdAndUpdate({id : JSONMessage.loomoID}, {status: 'available'}, {new:true})
+                userDB.findOneAndUpdate({id : JSONMessage.loomoID}, {status: 'available'}, {new:true})
                 .exec()
-                .then((err,newLoomo) => {
+                .then((newLoomo) => {
                     console.log(newLoomo.status);
                 }).catch((err) => {
                     console.log(err);
                 });
-                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoDismissal}` + "'");
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoDismiss}` + "'");
                 client.publish(`${C.S2L}/${C.loomoDismiss}`, JSON.stringify(msg), ()=>{});
                 break;
 
