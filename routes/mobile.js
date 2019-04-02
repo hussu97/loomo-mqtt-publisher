@@ -77,7 +77,7 @@ mobileMessenger.run = (client, mware) => {
                                     const signalsArray = Object.entries(JSONMessage.signalsArray)
                                                         .map((entry) => {
                                                             const signals = JSON.parse(entry[1]);
-                                                            return [entry[0], BTTrilat.getDistance(signals)];
+                                                            return [entry[0], mware.getDistance(signals)];
                                                         });
                                     
                                     // sorts by signal strength in ascending order
