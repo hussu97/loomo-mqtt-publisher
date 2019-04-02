@@ -89,15 +89,16 @@ mobileMessenger.run = (client, mware) => {
 
                                     const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
                                     
-                                    beaconDB.findById(beaconId)
+                                    beaconDB.findOne({id : beaconId})
                                     .exec()
                                     .then((beacon) => {
                                         const corner = beacon.corners[0];
+                                        console.log("Corner: ", corner)
                                         var msg = {
                                             clientID : JSONMessage.clientID,
                                             loomoID : loomo.id,
-                                            x_coordinate : Number(corner.split[","][0]),
-                                            y_coordinate : Number(corner.split[","][1]),
+                                            x_coordinate : Number(corner.split(",")[0]),
+                                            y_coordinate : Number(corner.split(",")[1]),
                                             //TODO add to database destinations
                                             // and what beacon is covered under it
                                             //TODO need to test this out
