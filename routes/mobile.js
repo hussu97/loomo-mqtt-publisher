@@ -80,7 +80,7 @@ mobileMessenger.run = (client, mware) => {
                                         //TODO add to database destinations
                                         // and what beacon is covered under it
                                         //TODO need to test this out
-                                        destinationBeaconID : destinationObj,
+                                        destinationCorners : destinationObj.corners,
                                         mode : JSONMessage.mode
                                     }
                                     client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});

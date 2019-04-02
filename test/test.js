@@ -10,9 +10,9 @@ test.createSampleMap = () => {
     map.create(
         {
             name : 'SampleMap',
-            cellWidth : 4,
+            cellWidth : 100,
             cellHeight : 4,
-            rows : 15,
+            rows : 25,
             columns : 25,
             beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
             destinations : [
@@ -28,10 +28,10 @@ test.createSampleMap = () => {
                 {
                     name : 'EB1-104',
                     corners : {
-                        0 : '1,1',
-                        1 : '1,1',
-                        2 : '1,1',
-                        3 : '1,1'
+                        0 : '5,5',
+                        1 : '5,5',
+                        2 : '5,5',
+                        3 : '5,5'
                     }
                 },
                 {
@@ -55,10 +55,10 @@ test.createSampleMap = () => {
                 {
                     name : 'EB1-107',
                     corners : {
-                        0 : '1,1',
-                        1 : '1,1',
-                        2 : '1,1',
-                        3 : '1,1'
+                        0 : '8,8',
+                        1 : '8,8',
+                        2 : '8,8',
+                        3 : '8,8'
                     }
                 },
                 {
