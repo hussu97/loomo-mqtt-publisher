@@ -1,4 +1,5 @@
 var fs = require('fs'),
+    KF = require('kalmanjs'),
     dirName = `${__dirname}/../log.log`;
 var middleWareObj = {}
 

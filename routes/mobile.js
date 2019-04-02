@@ -1,7 +1,7 @@
 var C = require('../constants'),
     BTTrilat = require('../trilateration/index'),
     userDB = require('../models/user'),
-    mapDB = require('../models/map');
+    mapDB = require('../models/map'),
     beaconDB = require('../models/beacons');
 
 var mobileMessenger = {}
@@ -74,10 +74,12 @@ mobileMessenger.run = (client, mware) => {
 
                                     // JSONMessage.signalsArray is an array of key-value pairs
                                     // the key is the beacon ID and the value is an array of RSSIs
-                                    const signalsArray = Object.entries(JSONMessage.signalsArray)
+                                    const signalsArray = JSONMessage.beaconSignals
                                                         .map((entry) => {
-                                                            const signals = JSON.parse(entry[1]);
-                                                            return [entry[0], mware.getDistance(signals)];
+                                                            entryArray = Object.entries(entry)[0];
+                                                            console.log("Entry: ", JSON.stringify(entryArray));
+                                                            const signals = JSON.parse(entryArray[1]);
+                                                            return [entryArray[0], mware.getDistance(signals)];
                                                         });
                                     
                                     // sorts by signal strength in ascending order
@@ -85,9 +87,9 @@ mobileMessenger.run = (client, mware) => {
                                         return lhs[1] - rhs[1];
                                     });
 
-                                    const [beaconId, signal] = [lhs[0][0], lhs[0][1]];
+                                    const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
                                     
-                                    beaconDB.findByID(beaconId)
+                                    beaconDB.findById(beaconId)
                                     .exec()
                                     .then((beacon) => {
                                         const corner = beacon.corners[0];
