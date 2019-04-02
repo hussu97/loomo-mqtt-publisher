@@ -1,8 +1,8 @@
 var C = require('../constants'),
-BTTrilat = require('../trilateration/index'),
-userDB = require('../models/user'),
-mapDB = require('../models/map');
-beaconDB = require('../models/beacons');
+    BTTrilat = require('../trilateration/index'),
+    userDB = require('../models/user'),
+    mapDB = require('../models/map');
+    beaconDB = require('../models/beacons');
 
 var mobileMessenger = {}
 mobileMessenger.run = (client, mware) => {
@@ -73,9 +73,13 @@ mobileMessenger.run = (client, mware) => {
                                     })
 
                                     // JSONMessage.signalsArray is an array of key-value pairs
-                                    // the key is the beacon ID and the value is the signal strength
-                                    const signalsArray = Object.entries(JSONMessage.signalsArray);
-
+                                    // the key is the beacon ID and the value is an array of RSSIs
+                                    const signalsArray = Object.entries(JSONMessage.signalsArray)
+                                                        .map((entry) => {
+                                                            const signals = JSON.parse(entry[1]);
+                                                            return [entry[0], BTTrilat.getDistance(signals)];
+                                                        });
+                                    
                                     // sorts by signal strength in ascending order
                                     signalsArray.sort((lhs, rhs) => {
                                         return lhs[1] - rhs[1];
