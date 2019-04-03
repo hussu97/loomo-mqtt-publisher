@@ -74,12 +74,16 @@ loomoMessenger.run = (client, mware) => {
                     loomoID : JSONMessage.loomoID,
                     clientID : JSONMessage.clientID,
                 }
-                console.log(JSONMessage.x_coordinate);
-                console.log(JSONMessage.y_coordinate);
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
                 client.publish(`${C.S2M}/${C.loomoArrival}`, JSON.stringify(msg), ()=>{});
                 break;
-
+            case `${C.L2S}/${C.startedJourney}`:
+                var msg = {
+                    loomoID : JSONMessage.loomoID,
+                    clientID : JSONMessage.clientID,
+                }
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.startedJourney}` + "'");
+                client.publish(`${C.S2M}/${C.startedJourney}`, JSON.stringify(msg), ()=>{});
             case `${C.L2S}/${C.getTours}`:
                 tourDB.findOne({mapName: JSONMessage.mapName, name: JSONMessage.tourName})
                 .exec()

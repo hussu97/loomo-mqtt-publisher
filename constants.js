@@ -13,6 +13,7 @@ module.exports = {
     loomoArrival : 'loomo-arrival',
     loomoDismiss : 'loomo-dismiss',
     startJourney : 'start-journey',
+    startedJourney : 'started-journey',
     userDestination : 'user-destination',
     loomoCall : 'loomo-called',
     errorRoute : 'error',
