@@ -121,6 +121,14 @@ loomoMessenger.run = (client, mware) => {
                 mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoArrival}` + "'");
                 break;
 
+            case `${C.L2S}/test-mqtt-client`:
+                if(JSONMessage.clientID){
+                    console.log('client: ' + JSONMessage.clientID + ' and loomo ' + JSONMessage.loomoID);
+                } else {
+                    console.log('loomo: '+JSONMessage.loomoID)
+                }
+                break;
+
             case `${C.L2S}/test-VLS-service`:
                 console.log('Speed: ' + JSONMessage.speed + ' and thetha ' + JSONMessage.thetha);
                 break;

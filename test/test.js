@@ -25,7 +25,7 @@ test.createSampleMap = () => {
             ],
             doors : [
                 {
-                    id : 'doorA',
+                    name : 'doorA',
                     corners : {
                         0 : '4,5',
                         1 : '4,7',
@@ -34,6 +34,19 @@ test.createSampleMap = () => {
                     },
                     x_coordinate : 7,
                     y_coordinate : 5
+                }
+            ],
+            homeStations : [
+                {
+                    name : 'homeA',
+                    corners : {
+                        0 : '7,5',
+                        1 : '7,7',
+                        2 : '9,5',
+                        3 : '9,7' 
+                    },
+                    x_coordinate : 8,
+                    y_coordinate : 8
                 }
             ]
         }, (err, newMap) => {
@@ -73,14 +86,14 @@ test.createBeaconObj = (id, mapName, height, corner,x_coordinate,y_coordinate) =
 test.createSampleBeacons = () => {
     beacon.create(
         [
-        test.createBeaconObj("59bfdda585767280f886db284653ee35", "EB1-Rotunda", 24.56, '4,5',4,6),
-        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", "EB1-Rotunda", 24.56, '1,5',4,6),
-        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", "EB1-Rotunda", 24.56, '2,5',4,6),
+        test.createBeaconObj("59bfdda585767280f886db284653ee35", "EB1-Rotunda", 24.56, '4,5',1,6),
+        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", "EB1-Rotunda", 24.56, '1,5',2,6),
+        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", "EB1-Rotunda", 24.56, '2,5',3,6),
         test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", "EB1-Rotunda", 24.56, '6,5',4,6),
-        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", "EB1-Rotunda", 24.56, '6,5',4,6),
-        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", "EB1-Rotunda", 24.56, '6,5',4,6),
-        test.createBeaconObj("6a811095d963f29290ea5371b4177020", "EB1-Rotunda", 24.56, '6,5',4,6),
-        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", "EB1-Rotunda", 24.56, '6,5',4,6)
+        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", "EB1-Rotunda", 24.56, '6,5',5,6),
+        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", "EB1-Rotunda", 24.56, '6,5',6,6),
+        test.createBeaconObj("6a811095d963f29290ea5371b4177020", "EB1-Rotunda", 24.56, '6,5',7,6),
+        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", "EB1-Rotunda", 24.56, '6,5',8,6)
         ], (err, newBeacons) => {
             if(err) console.log('Error in creating beacons: '+err);
         }

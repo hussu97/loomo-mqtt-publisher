@@ -20,6 +20,24 @@ var doorSchema = new mongoose.Schema({
     }
 });
 
+var homeStationSchema = new mongoose.Schema({
+    name : String,
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
+    },
+    corners : {
+        0 : String,
+        1 : String,
+        2 : String,
+        3 : String
+    },
+});
+
 var obstacleSchema = new mongoose.Schema({
     corners : {
         0 : String,
@@ -76,6 +94,7 @@ var MapSchema = new mongoose.Schema({
         default : Date.now
     },
     destinations : [destinationSchema],
+    homeStations : [homeStationSchema],
     loomoIDs : [String]
 });
 
