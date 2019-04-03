@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+mongoose.connect("mongodb://localhost/senior-design", { useNewUrlParser: true });
+
 var BeaconSchema = new mongoose.Schema({
     id : {
         type: String,
