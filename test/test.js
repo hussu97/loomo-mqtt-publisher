@@ -9,67 +9,19 @@ var test = {};
 test.createSampleMap = () => {
     map.create(
         {
-            name : 'SampleMap',
+            name : 'EB1-Rotunda',
             cellWidth : 100,
-            cellHeight : 4,
             rows : 25,
             columns : 25,
             beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
             destinations : [
-                {
-                    name : 'EB1-103',
-                    corners : {
-                        0 : '1,1',
-                        1 : '1,1',
-                        2 : '1,1',
-                        3 : '1,1'
-                    }
-                },
-                {
-                    name : 'EB1-104',
-                    corners : {
-                        0 : '5,5',
-                        1 : '5,5',
-                        2 : '5,5',
-                        3 : '5,5'
-                    }
-                },
-                {
-                    name : 'EB1-105',
-                    corners : {
-                        0 : '1,1',
-                        1 : '1,1',
-                        2 : '1,1',
-                        3 : '1,1'
-                    }
-                },
-                {
-                    name : 'EB1-106',
-                    corners : {
-                        0 : '1,1',
-                        1 : '1,1',
-                        2 : '1,1',
-                        3 : '1,1'
-                    }
-                },
-                {
-                    name : 'EB1-107',
-                    corners : {
-                        0 : '8,8',
-                        1 : '8,8',
-                        2 : '8,8',
-                        3 : '8,8'
-                    }
-                },
-                {
-                    name : 'EB1-108',
-                    corners : {
-                        0 : '1,1',
-                        1 : '1,1',
-                        2 : '1,1',
-                        3 : '1,1'
-                    }
-                }
+                test.createDestinationObj('EB1-103','6,5',4,6),
+                test.createDestinationObj('EB1-104','6,5',4,6),
+                test.createDestinationObj('EB1-105','6,5',4,6),
+                test.createDestinationObj('EB1-106','6,5',4,6),
+                test.createDestinationObj('EB1-107','6,5',4,6),
+                test.createDestinationObj('EB1-108','6,5',4,6),
+                test.createDestinationObj('EB1-109','6,5',4,6),
             ],
             doors : [
                 {
@@ -79,7 +31,9 @@ test.createSampleMap = () => {
                         1 : '4,7',
                         2 : '5,5',
                         3 : '5,7'
-                    }
+                    },
+                    x_coordinate : 7,
+                    y_coordinate : 5
                 }
             ]
         }, (err, newMap) => {
@@ -87,8 +41,20 @@ test.createSampleMap = () => {
         }
     )
 }
-
-test.createBeaconObj = (id, mapName, height, corner) => {
+test.createDestinationObj = (name, corner, x_coordinate,y_coordinate) => {
+    return {
+        name : name,
+        corners : {
+            0 : corner,
+            1 : corner,
+            2 : corner,
+            3 : corner
+        },
+        x_coordinate : x_coordinate,
+        y_coordinate : y_coordinate
+    };
+}
+test.createBeaconObj = (id, mapName, height, corner,x_coordinate,y_coordinate) => {
     return {
         id : id,
         mapName : mapName,
@@ -98,60 +64,23 @@ test.createBeaconObj = (id, mapName, height, corner) => {
             1 : corner,
             2 : corner,
             3 : corner
-        }
+        },
+        x_coordinate : x_coordinate,
+        y_coordinate : y_coordinate
     };
 }
 
 test.createSampleBeacons = () => {
     beacon.create(
-        [{
-            id: '283acdcf5be28c0f71dc4b6a84219d29',
-            mapName : 'SampleMap',
-            height : 42.56,
-            corners : {
-                0 : '9,9',
-                1 : '9,9',
-                2 : '9,9',
-                3 : '9,9'
-            }
-        },
-        {
-            id: '6a811095d963f29290ea5371b4177020',
-            mapName : 'SampleMap',
-            height : 42.90,
-            corners : {
-                0 : '5,7',
-                1 : '5,7',
-                2 : '5,7',
-                3 : '5,7'
-            }
-        },
-        {
-            id: '4454649ebee76a8e5f23a202825c8401',
-            mapName : 'SampleMap',
-            height : 67.90,
-            corners : {
-                0 : '18,10',
-                1 : '18,10',
-                2 : '18,10',
-                3 : '18,10'
-            } 
-        },
-        {
-            id: 'd9b0b6f879088d8f767576e07841e43a',
-            mapName : 'SampleMap',
-            height : 36.90,
-            corners : {
-                0 : '1,10',
-                1 : '1,10',
-                2 : '1,10',
-                3 : '1,10'
-            } 
-        }, 
-        test.createBeaconObj("59bfdda585767280f886db284653ee35", "SampleMap", 24.56, '4,5'),
-        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", "SampleMap", 24.56, '1,5'),
-        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", "SampleMap", 24.56, '2,5'),
-        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", "SampleMap", 24.56, '6,5')
+        [
+        test.createBeaconObj("59bfdda585767280f886db284653ee35", "EB1-Rotunda", 24.56, '4,5',4,6),
+        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", "EB1-Rotunda", 24.56, '1,5',4,6),
+        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", "EB1-Rotunda", 24.56, '2,5',4,6),
+        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", "EB1-Rotunda", 24.56, '6,5',4,6),
+        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", "EB1-Rotunda", 24.56, '6,5',4,6),
+        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", "EB1-Rotunda", 24.56, '6,5',4,6),
+        test.createBeaconObj("6a811095d963f29290ea5371b4177020", "EB1-Rotunda", 24.56, '6,5',4,6),
+        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", "EB1-Rotunda", 24.56, '6,5',4,6)
         ], (err, newBeacons) => {
             if(err) console.log('Error in creating beacons: '+err);
         }
@@ -176,7 +105,7 @@ test.createSampleTour = () => {
     tour.create(
         {
             name : 'Demo Tour',
-            mapName : 'SampleMap',
+            mapName : 'EB1-Rotunda',
             destinations : [
                 {
                     destinationName : 'EB1-103',

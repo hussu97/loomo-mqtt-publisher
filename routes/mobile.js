@@ -18,7 +18,8 @@ mobileMessenger.run = (client, mware) => {
                 .then((map) => {
                     var msg = {
                         clientID : JSONMessage.clientID,
-                        destinations : map.destinations
+                        destinations : map.destinations,
+                        mapName : map.name
                     }
                     client.publish(`${C.S2M}/${C.getMapDestinations}`, JSON.stringify(msg), () => {});
                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.getMapDestinations}` + "'");
@@ -75,12 +76,12 @@ mobileMessenger.run = (client, mware) => {
                                         loomoID : loomo.id,
                                         //TODO
                                         //center of user beacon response
-                                        x_coordinate : 1,
-                                        y_coordinate : 1,
-                                        //TODO add to database destinations
-                                        // and what beacon is covered under it
-                                        //TODO need to test this out
-                                        destinationCorners : destinationObj.corners,
+                                        user_x_coordinate : 1,
+                                        user_y_coordinate : 0,
+                                        destination_x_coordinate : 2,
+                                        destination_y_coordinate : 0,
+                                        //destination_x_coordinate : destinationObj.x_coordinate,
+                                        //destination_y_coordinate : destinationObj.y_coordinate,
                                         mode : JSONMessage.mode
                                     }
                                     client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
@@ -117,6 +118,14 @@ mobileMessenger.run = (client, mware) => {
                 client.publish(`${C.S2L}/${C.loomoDismiss}`, JSON.stringify(msg), ()=>{});
                 break;
 
+            case `${C.M2S}/${C.startJourney}`:
+                var msg = {
+                    loomoID : JSONMessage.loomoID,
+                    clientID : JSONMessage.clientID
+                }
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.startJourney}` + "'");
+                client.publish(`${C.S2L}/${C.startJourney}`, JSON.stringify(msg), ()=>{});
+                break;
             //TODO
             // Route is unused so far, need to figure out what this is for
             case `${C.M2S}/${C.userDestination}`:

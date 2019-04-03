@@ -9,6 +9,14 @@ var doorSchema = new mongoose.Schema({
         1 : String,
         2 : String,
         3 : String
+    },
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
     }
 });
 
@@ -31,9 +39,16 @@ var destinationSchema = new mongoose.Schema({
         1 : String,
         2 : String,
         3 : String
+    },
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
     }
-
-})
+});
 
 var MapSchema = new mongoose.Schema({
     name : {
@@ -41,10 +56,6 @@ var MapSchema = new mongoose.Schema({
         required : true
     },
     cellWidth : {
-        type : Number,
-        required : true
-    },
-    cellHeight : {
         type : Number,
         required : true
     },

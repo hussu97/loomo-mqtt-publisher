@@ -26,7 +26,7 @@ loomoMessenger.run = (client, mware) => {
                                 x_coordinate : 0.0,
                                 y_coordinate : 0.0,
                                 timeStamp : Date.now,
-                                mapName : 'SampleMap'
+                                mapName : 'EB1-Rotunda'
                             }
                         });
                         newLoomo.save((err) => {if (err) console.log(err);} );
@@ -97,6 +97,7 @@ loomoMessenger.run = (client, mware) => {
                     clientID : JSONMessage.clientID,
                     loomoID : JSONMessage.loomoID
                 }
+                client.publish(`${C.S2M}/${C.loomoDismiss}`, JSON.stringify(msg), ()=>{});
                 mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.loomoDismiss}` + "'");
                 break;
             //TODO

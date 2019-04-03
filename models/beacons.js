@@ -15,6 +15,14 @@ var BeaconSchema = new mongoose.Schema({
         2 : String,
         3 : String
     },
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
+    },
     mapName : String
 });
 
