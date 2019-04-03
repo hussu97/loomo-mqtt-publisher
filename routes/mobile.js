@@ -1,7 +1,8 @@
 var C = require('../constants'),
     BTTrilat = require('../trilateration/index'),
     userDB = require('../models/user'),
-    mapDB = require('../models/map');
+    mapDB = require('../models/map'),
+    beaconDB = require('../models/beacons');
 
 var mobileMessenger = {}
 mobileMessenger.run = (client, mware) => {
@@ -70,21 +71,44 @@ mobileMessenger.run = (client, mware) => {
                                             return element;
                                         }
                                     })
-                                    var msg = {
-                                        clientID : JSONMessage.clientID,
-                                        loomoID : loomo.id,
-                                        //TODO
-                                        //center of user beacon response
-                                        x_coordinate : 1,
-                                        y_coordinate : 1,
-                                        //TODO add to database destinations
-                                        // and what beacon is covered under it
-                                        //TODO need to test this out
-                                        destinationBeaconID : destinationObj,
-                                        mode : JSONMessage.mode
-                                    }
-                                    client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
-                                    mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
+
+                                    // JSONMessage.signalsArray is an array of key-value pairs
+                                    // the key is the beacon ID and the value is an array of RSSIs
+                                    const signalsArray = JSONMessage.beaconSignals
+                                                        .map((entry) => {
+                                                            entryArray = Object.entries(entry)[0];
+                                                            console.log("Entry: ", JSON.stringify(entryArray));
+                                                            const signals = JSON.parse(entryArray[1]);
+                                                            return [entryArray[0], mware.getDistance(signals)];
+                                                        });
+                                    
+                                    // sorts by signal strength in ascending order
+                                    signalsArray.sort((lhs, rhs) => {
+                                        return lhs[1] - rhs[1];
+                                    });
+
+                                    const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
+                                    
+                                    beaconDB.findOne({id : beaconId})
+                                    .exec()
+                                    .then((beacon) => {
+                                        const corner = beacon.corners[0];
+                                        console.log("Corner: ", corner)
+                                        var msg = {
+                                            clientID : JSONMessage.clientID,
+                                            loomoID : loomo.id,
+                                            x_coordinate : Number(corner.split(",")[0]),
+                                            y_coordinate : Number(corner.split(",")[1]),
+                                            //TODO add to database destinations
+                                            // and what beacon is covered under it
+                                            //TODO need to test this out
+                                            destinationBeaconID : destinationObj,
+                                            mode : JSONMessage.mode
+                                        }
+                                        client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
+                                        mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
+                                        });
+
                                 });
                             } else {
                                 var msg = {
