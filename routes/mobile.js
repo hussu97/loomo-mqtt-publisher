@@ -98,11 +98,11 @@ mobileMessenger.run = (client, mware) => {
                                         var msg = {
                                             clientID : JSONMessage.clientID,
                                             loomoID : loomo.id,
-                                            user_x_coordinate : 1,
+                                            user_x_coordinate : 0,
                                             user_y_coordinate : 0,
                                             //user_x_coordinate : beaconObj.x_coordinate,
                                             //user_y_coordinate : beaconObj.y_coordinate,
-                                            destination_x_coordinate : 2,
+                                            destination_x_coordinate : 0,
                                             destination_y_coordinate : 0,
                                             //destination_x_coordinate : destinationObj.x_coordinate,
                                             //destination_y_coordinate : destinationObj.y_coordinate,
