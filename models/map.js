@@ -4,12 +4,6 @@ mongoose.connect("mongodb://localhost/senior-design", { useNewUrlParser: true })
 
 var doorSchema = new mongoose.Schema({
     name : String,
-    corners : {
-        0 : String,
-        1 : String,
-        2 : String,
-        3 : String
-    },
     x_coordinate : {
         type : Number,
         required : true
@@ -30,12 +24,6 @@ var homeStationSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
-    corners : {
-        0 : String,
-        1 : String,
-        2 : String,
-        3 : String
-    },
 });
 
 var obstacleSchema = new mongoose.Schema({
@@ -51,12 +39,6 @@ var destinationSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true
-    },
-    corners : {
-        0 : String,
-        1 : String,
-        2 : String,
-        3 : String
     },
     x_coordinate : {
         type : Number,

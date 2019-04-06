@@ -5,68 +5,87 @@ var map      = require('../models/map'),
     tour     = require('../models/tours'),
     BTTrilat = require('../trilateration/index');
 
+const floorPlanToReal = 245;
+const cellSize = 100;
+const N = 0,
+E = Math.PI/2,
+W = -Math.PI/2,
+S = Math.PI;
+
 var test = {};
 test.createSampleMap = () => {
     map.create(
         {
             name : 'EB1-Rotunda',
             cellWidth : 100,
-            rows : 25,
-            columns : 25,
+            rows : test.convertToServerCoord(15.15),
+            columns : test.convertToServerCoord(16.7),
             beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
             destinations : [
-                test.createDestinationObj('EB1-103','6,5',4,6),
-                test.createDestinationObj('EB1-104','6,5',4,6),
-                test.createDestinationObj('EB1-105','6,5',4,6),
-                test.createDestinationObj('EB1-106','6,5',4,6),
-                test.createDestinationObj('EB1-107','6,5',4,6),
-                test.createDestinationObj('EB1-108','6,5',4,6),
-                test.createDestinationObj('EB1-109','6,5',4,6),
-            ],
-            doors : [
-                {
-                    name : 'doorA',
-                    corners : {
-                        0 : '4,5',
-                        1 : '4,7',
-                        2 : '5,5',
-                        3 : '5,7'
-                    },
-                    x_coordinate : 7,
-                    y_coordinate : 5
-                }
+                test.createDestinationObj('EB1-101',3,10.5,S),
+                test.createDestinationObj('EB1-102',3,11.2,W),
+                test.createDestinationObj('Washroom',5.6,13,W),
+                test.createDestinationObj('Elevator',7.4,12,W),
+                test.createDestinationObj('EB1-107A',9,12,N),
+                test.createDestinationObj('EB1-112',10.1,9,N),
+                test.createDestinationObj('EB1-113',10.1,7,N),
+                test.createDestinationObj('EB1-114',10,3.5,N),
+                test.createDestinationObj('EB1-115',9,4.4,E),
+                test.createDestinationObj('EB1-116',5,4.5,E),
+                test.createDestinationObj('EB1-119',3,5,E),
+                test.createDestinationObj('EB1-120',3.5,6,S),
+                test.createDestinationObj('Entrance/Exit',3.5,8.3,S),
+
             ],
             homeStations : [
                 {
                     name : 'homeA',
-                    corners : {
-                        0 : '7,5',
-                        1 : '7,7',
-                        2 : '9,5',
-                        3 : '9,7' 
-                    },
-                    x_coordinate : 8,
-                    y_coordinate : 8
+                    x_coordinate : test.convertToServerCoord(3.5),
+                    y_coordinate : test.convertToServerCoord(7)
                 }
+            ],
+            obstacles : [
+                test.createObstacleObj(0,15.15,0,3.7),
+                test.createObstacleObj(10.2,15.15,0,11.1),
+                test.createObstacleObj(0,2.7,0,16.7),
+                test.createObstacleObj(3.4,5.3,12.5,16.7),
+                test.createObstacleObj(5.3,6.6,14.0,16.7),
+                test.createObstacleObj(6.6,15.15,12.5,16.7),
+                test.createObstacleObj(10.8,15.15,0,16.7)
             ]
         }, (err, newMap) => {
             if (err) console.log('Error in creating map: '+err);
         }
     )
 }
-test.createDestinationObj = (name, corner, x_coordinate,y_coordinate) => {
+test.createDestinationObj = (name, x_coordinate, y_coordinate, thetha) => {
     return {
         name : name,
-        corners : {
-            0 : corner,
-            1 : corner,
-            2 : corner,
-            3 : corner
-        },
-        x_coordinate : x_coordinate,
-        y_coordinate : y_coordinate
+        x_coordinate : test.convertToServerCoord(x_coordinate),
+        y_coordinate : test.convertToServerCoord(y_coordinate),
+        thetha : thetha
     };
 }
+
+test.convertToServerCoord = (coordinate) => {
+    return coordinate*floorPlanToReal/cellSize;
+}
+
+test.createObstacleObj = (x1,x2,y1,y2) => {
+    x1 = test.convertToServerCoord(x1);
+    x2 = test.convertToServerCoord(x2);
+    y1 = test.convertToServerCoord(y1);
+    y2 = test.convertToServerCoord(y2);
+    return {
+        corners : {
+            0 : `${x1},${y1}`,
+            1 : `${x1},${y2}`,
+            2 : `${x2},${y1}`,
+            3 : `${x2},${y2}`,
+        }
+    }
+}
+
 test.createBeaconObj = (id, mapName, height, corner,x_coordinate,y_coordinate) => {
     return {
         id : id,
