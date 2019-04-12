@@ -55,7 +55,7 @@ var MapSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    cellWidth : {
+    cellSize : {
         type : Number,
         required : true
     },

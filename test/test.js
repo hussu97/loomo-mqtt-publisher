@@ -5,7 +5,7 @@ var map      = require('../models/map'),
     tour     = require('../models/tours'),
     BTTrilat = require('../trilateration/index');
 
-const floorPlanToReal = 245;
+const floorPlanToReal = 100;
 const cellSize = 100;
 const N = 0,
 E = Math.PI/2,
@@ -17,7 +17,7 @@ test.createSampleMap = () => {
     map.create(
         {
             name : 'EB1-Rotunda',
-            cellWidth : 100,
+            cellSize : cellSize,
             rows : test.convertToServerCoord(15.15),
             columns : test.convertToServerCoord(16.7),
             beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
@@ -58,6 +58,82 @@ test.createSampleMap = () => {
         }
     )
 }
+
+test.createEB2Map = () => {
+    map.create(
+        {
+            name : 'EB2-Rotunda',
+            cellSize : cellSize,
+            rows : test.convertToServerCoord(36.22),
+            columns : test.convertToServerCoord(40.38),
+            beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
+            destinations : [
+                test.createDestinationObj('EB2-125',6.893,11.458,S),
+                test.createDestinationObj('Praveena',6.893,11.458,S),
+                test.createDestinationObj('Suresh',6.893,11.458,S),
+                test.createDestinationObj('Washroom',15.207,11.636,W),
+                test.createDestinationObj('Stairs',15.207,11.636,W),
+                test.createDestinationObj('Elevator',17.248,11.636,W),
+                test.createDestinationObj('Cisco Lab',21.750,11.549,W),
+                test.createDestinationObj('Wissam',21.750,11.549,W),
+                test.createDestinationObj('IoT Lab',26.884,11.325,W),
+                test.createDestinationObj('EB2-109',26.069,27.968,N),
+                test.createDestinationObj('EB2-108',26.383,28.5,N),
+                test.createDestinationObj('EB2-104',23.760,28.5,N),
+                test.createDestinationObj('EB2-103',11.882,28.5,N),
+                test.createDestinationObj('Hicham',7.148,28.5,E),
+                test.createDestinationObj('IT-Dept',7.148,28.5,E),
+                test.createDestinationObj('Entrance/Exit',8.2,19.99,S),
+            ],
+            homeStations : [
+                {
+                    name : 'homeA',
+                    x_coordinate : test.convertToServerCoord(8.2),
+                    y_coordinate : test.convertToServerCoord(19.99)
+                }
+            ],
+            obstacles : [
+                test.createObstacleObj(0,7.319,0,40.380),
+                test.createObstacleObj(0,36.220,0,10.202),
+                test.createObstacleObj(26.075,36.22,12.308,30),
+                test.createObstacleObj(0,36.22,30,40.38)
+            ]
+        }, (err, newMap) => {
+            if (err) console.log('Error in creating map: '+err);
+        }
+    )
+}
+
+test.createSDLMap = () => {
+    map.create(
+        {
+            name : 'SDL',
+            cellSize : cellSize,
+            rows : test.convertToServerCoord(9.50),
+            columns : test.convertToServerCoord(5.00),
+            beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
+            destinations : [
+                test.createDestinationObj('destA',5,1,S),
+            ],
+            homeStations : [
+                {
+                    name : 'homeA',
+                    x_coordinate : test.convertToServerCoord(1.00),
+                    y_coordinate : test.convertToServerCoord(2.00)
+                }
+            ],
+            obstacles : [
+                test.createObstacleObj(0,9.50,0,1.0),
+                test.createObstacleObj(0,1.0,0,5.0),
+                test.createObstacleObj(0,9.50,4.0,5.0),
+                test.createObstacleObj(8.5,9.5,0,5.0)
+            ]
+        }, (err, newMap) => {
+            if (err) console.log('Error in creating map: '+err);
+        }
+    )
+}
+
 test.createDestinationObj = (name, x_coordinate, y_coordinate, thetha) => {
     return {
         name : name,
@@ -66,6 +142,8 @@ test.createDestinationObj = (name, x_coordinate, y_coordinate, thetha) => {
         thetha : thetha
     };
 }
+
+
 
 test.convertToServerCoord = (coordinate) => {
     return coordinate*floorPlanToReal/cellSize;

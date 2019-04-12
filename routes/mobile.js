@@ -104,6 +104,8 @@ mobileMessenger.run = (client, mware) => {
                                             //user_y_coordinate : beaconObj.y_coordinate,
                                             destination_x_coordinate : 0,
                                             destination_y_coordinate : 0,
+                                            destination_thetha : 0,
+                                            //destination_thetha : destinationObj.thetha,
                                             //destination_x_coordinate : destinationObj.x_coordinate,
                                             //destination_y_coordinate : destinationObj.y_coordinate,
                                             mode : JSONMessage.mode

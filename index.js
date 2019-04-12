@@ -24,11 +24,13 @@ var options = {
 var client = mqtt.connect('mqtt://m24.cloudmqtt.com', options);
 
 if(TEST){
-    test.createSampleMap();
+    //test.createSampleMap();
+    //test.createEB2Map();
     //test.createSampleUser();
     //test.createSampleBeacons();
     //test.findSampleCenter();
     //test.createSampleTour();
+    //test.createSDLMap();
 }
 
 client.on('connect', (packetInfo) => { // When connected

@@ -3,7 +3,7 @@ var C = require('../constants'),
     mapDB = require('../models/map'),
     tourDB = require('../models/tours');
 var loomoMessenger = {}
-
+var array = []
 loomoMessenger.run = (client, mware) => {
     client.subscribe(`${C.L2S}/#`);
 
@@ -136,13 +136,40 @@ loomoMessenger.run = (client, mware) => {
 
                 break;
             case `${C.L2S}/SampleFunctions-checkpoint`:
-                console.log('X value: ' + JSONMessage.x_coordinate + ' Y value: ' + JSONMessage.y_coordinate + ' thetha: ' + JSONMessage.thetha + ' isLast: ' + JSONMessage.lastCheckpoint + ' ID: ' + JSONMessage.ID);
+                //console.log('X value: ' + JSONMessage.x_coordinate + ' Y value: ' + JSONMessage.y_coordinate + ' thetha: ' + JSONMessage.thetha + ' isLast: ' + JSONMessage.lastCheckpoint + ' ID: ' + JSONMessage.ID);
                 break;
             case `${C.L2S}/SampleFunctions-VLSPose`:
                 console.log('X value: ' + JSONMessage.x_coordinate + ' Y value: ' + JSONMessage.y_coordinate + ' thetha: ' + JSONMessage.thetha );
                 break;
         }
     });
+        var stdin = process.openStdin();
+counter = 0;
+stdin.addListener("data", function(d) {
+    array[(counter)%3] = Number(d.toString().trim());
+    counter = counter +1;
+    if(counter%3==0){
+        x = array[0];
+        y = array[1];
+        t = array[2];
+        msg = {
+            x : x,
+            y : y,
+            thetha : t
+        }
+        client.publish(`${C.S2L}/test-route`, JSON.stringify(msg), () => { });
+        console.log('hi');
+    }
+  });
+        // x = Numbler(readline());
+        // y = Number(readline());
+        // t = Number(readline());
+        // msg = {
+        //     x : x,
+        //     y : y,
+        //     thetha : t
+        // }
+        // client.publish(`${C.S2L}/test-route`, JSON.stringify(msg), () => { });
 }
 
 module.exports = loomoMessenger;
