@@ -6,6 +6,7 @@ module.exports = {
     getMap : 'get-map',
     getMapDestinations : 'get-map-destinations',
     sendMap : 'send-map',
+    sendTour : 'send-tour',
     userInfo : 'user-info',
     userError : 'user-error',
     beaconSignals : 'beacon-signals',

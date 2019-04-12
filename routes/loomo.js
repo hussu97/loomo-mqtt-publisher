@@ -52,6 +52,16 @@ loomoMessenger.run = (client, mware) => {
                         }
                         client.publish(`${C.S2L}/${C.sendMap}`, JSON.stringify(msg), () => { });
                         mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.sendMap}` + "'");
+                        tourDB.findOne({ mapName: JSONMessage.mapName})
+                        .exec()
+                        .then((tour) => {
+                            var msg2 = {
+                                loomoID: JSONMessage.loomoID,
+                                tour : tour
+                            }
+                            client.publish(`${C.S2L}/${C.sendTour}`, JSON.stringify(msg2), () => { });
+                            mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg2) + "' to '" + `${C.S2L}/${C.sendTour}` + "'");
+                        });
                     });
                 break;
 

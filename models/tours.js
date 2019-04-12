@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 mongoose.connect("mongodb://localhost/senior-design", { useNewUrlParser: true });
 
-var UserSchema = new mongoose.Schema({
+var TourSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true
@@ -17,9 +17,10 @@ var UserSchema = new mongoose.Schema({
                 type : String,
                 required : true
             },
-            speech : String
+            speech : String,
+            order : Number
         }
     ]
 });
 
-module.exports = mongoose.model("Tour",UserSchema);
+module.exports = mongoose.model("Tour",TourSchema);

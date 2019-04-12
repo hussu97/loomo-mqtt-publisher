@@ -8,8 +8,8 @@ var map      = require('../models/map'),
 const floorPlanToReal = 100;
 const cellSize = 100;
 const N = 0,
-E = Math.PI/2,
-W = -Math.PI/2,
+E = -Math.PI/2,
+W = Math.PI/2,
 S = Math.PI;
 
 var test = {};
@@ -68,28 +68,29 @@ test.createEB2Map = () => {
             columns : test.convertToServerCoord(40.38),
             beaconIDs : ['59bfdda585767280f886db284653ee35','3c52a5930c34db229451868164d7fc13','e158516ea666f214c38d5464c5440d1f','5812ca89ff64bf356564f5ee641f6f1b'],
             destinations : [
-                test.createDestinationObj('EB2-125',6.893,11.458,S),
-                test.createDestinationObj('Praveena',6.893,11.458,S),
-                test.createDestinationObj('Suresh',6.893,11.458,S),
+                test.createDestinationObj('EB2-125',6.893,11.458,N),
+                test.createDestinationObj('Praveena',6.893,11.458,N),
+                test.createDestinationObj('Suresh',6.893,11.458,N),
                 test.createDestinationObj('Washroom',15.207,11.636,W),
                 test.createDestinationObj('Stairs',15.207,11.636,W),
                 test.createDestinationObj('Elevator',17.248,11.636,W),
                 test.createDestinationObj('Cisco Lab',21.750,11.549,W),
                 test.createDestinationObj('Wissam',21.750,11.549,W),
-                test.createDestinationObj('IoT Lab',26.884,11.325,W),
-                test.createDestinationObj('EB2-109',26.069,27.968,N),
-                test.createDestinationObj('EB2-108',26.383,28.5,N),
-                test.createDestinationObj('EB2-104',23.760,28.5,N),
-                test.createDestinationObj('EB2-103',11.882,28.5,N),
-                test.createDestinationObj('Hicham',7.148,28.5,E),
-                test.createDestinationObj('IT-Dept',7.148,28.5,E),
-                test.createDestinationObj('Entrance/Exit',8.2,19.99,S),
+                test.createDestinationObj('IoT Lab',26.884,11.325,S),
+                test.createDestinationObj('EB2-109',26.069,27.968,S),
+                test.createDestinationObj('EB2-108',26.383,28.5,E),
+                test.createDestinationObj('EB2-104',23.760,28.5,E),
+                test.createDestinationObj('EB2-103',11.882,28.5,E),
+                test.createDestinationObj('Hicham',7.148,28.5,N),
+                test.createDestinationObj('IT-Dept',7.148,28.5,N),
+                test.createDestinationObj('Entrance/Exit',8.2,19.99,N),
             ],
             homeStations : [
                 {
                     name : 'homeA',
                     x_coordinate : test.convertToServerCoord(8.2),
-                    y_coordinate : test.convertToServerCoord(19.99)
+                    y_coordinate : test.convertToServerCoord(19.99),
+                    thetha : N
                 }
             ],
             obstacles : [
@@ -211,20 +212,23 @@ test.createSampleUser = () => {
         }
     )
 }
+test.createTourDestinationObj = (destinationName, speech, order) => {
+    return {
+        destinationName : destinationName,
+        speech : speech,
+        order : order
+    }
+} 
 test.createSampleTour = () => {
     tour.create(
         {
-            name : 'Demo Tour',
-            mapName : 'EB1-Rotunda',
+            name : 'EB2 Tour',
+            mapName : 'EB2-Rotunda',
             destinations : [
-                {
-                    destinationName : 'EB1-103',
-                    speech : 'Here is EB1-103'
-                },
-                {
-                    destinationName : 'EB1-106',
-                    speech : 'Here is not EB1-103, but it is in fact EB1-106'
-                }
+                test.createTourDestinationObj('Praveena','This is the office of Miss Praveena and Mr Suresh. It is also the Computer Science and Engineering lab',1),
+                test.createTourDestinationObj('Elevator','You can go to the second floor or the basement from this elevator',2),
+                test.createTourDestinationObj('IoT-Lab','You can go forward and see all the cool rooms we have for you',3),
+                test.createTourDestinationObj('Hicham','Here we have the office of Dr. Hicham, and the IT-Department',4),
             ]
         }
     )
