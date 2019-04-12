@@ -19,7 +19,8 @@ mobileMessenger.run = (client, mware) => {
                 .then((map) => {
                     var msg = {
                         clientID : JSONMessage.clientID,
-                        destinations : map.destinations
+                        destinations : map.destinations,
+                        mapName : map.name
                     }
                     client.publish(`${C.S2M}/${C.getMapDestinations}`, JSON.stringify(msg), () => {});
                     mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.getMapDestinations}` + "'");
@@ -70,7 +71,7 @@ mobileMessenger.run = (client, mware) => {
                                         if(element.name == JSONMessage.destination){
                                             return element;
                                         }
-                                    })
+                                    });
 
                                     // JSONMessage.signalsArray is an array of key-value pairs
                                     // the key is the beacon ID and the value is an array of RSSIs
@@ -84,31 +85,35 @@ mobileMessenger.run = (client, mware) => {
                                     
                                     // sorts by signal strength in ascending order
                                     signalsArray.sort((lhs, rhs) => {
-                                        return lhs[1] - rhs[1];
+                                        return rhs[1] - lhs[1];
                                     });
 
                                     const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
                                     
                                     beaconDB.findOne({id : beaconId})
                                     .exec()
-                                    .then((beacon) => {
-                                        const corner = beacon.corners[0];
+                                    .then((beaconObj) => {
+                                        const corner = beaconObj.corners[0];
                                         console.log("Corner: ", corner)
                                         var msg = {
                                             clientID : JSONMessage.clientID,
                                             loomoID : loomo.id,
-                                            x_coordinate : Number(corner.split(",")[0]),
-                                            y_coordinate : Number(corner.split(",")[1]),
-                                            //TODO add to database destinations
-                                            // and what beacon is covered under it
-                                            //TODO need to test this out
-                                            destinationBeaconID : destinationObj,
+                                            user_x_coordinate : 0,
+                                            user_y_coordinate : 0,
+                                            //user_x_coordinate : beaconObj.x_coordinate,
+                                            //user_y_coordinate : beaconObj.y_coordinate,
+                                            destination_x_coordinate : 0,
+                                            destination_y_coordinate : 0,
+                                            destination_thetha : 0,
+                                            //destination_thetha : destinationObj.thetha,
+                                            //destination_x_coordinate : destinationObj.x_coordinate,
+                                            //destination_y_coordinate : destinationObj.y_coordinate,
                                             mode : JSONMessage.mode
                                         }
+                                        console.log(msg.user_x_coordinate+" beacon "+msg.user_y_coordinate);
                                         client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                         mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
                                         });
-
                                 });
                             } else {
                                 var msg = {
@@ -141,6 +146,14 @@ mobileMessenger.run = (client, mware) => {
                 client.publish(`${C.S2L}/${C.loomoDismiss}`, JSON.stringify(msg), ()=>{});
                 break;
 
+            case `${C.M2S}/${C.startJourney}`:
+                var msg = {
+                    loomoID : JSONMessage.loomoID,
+                    clientID : JSONMessage.clientID
+                }
+                mware.writeLog(new Date().toString() + " Sent '"+JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.startJourney}` + "'");
+                client.publish(`${C.S2L}/${C.startJourney}`, JSON.stringify(msg), ()=>{});
+                break;
             //TODO
             // Route is unused so far, need to figure out what this is for
             case `${C.M2S}/${C.userDestination}`:

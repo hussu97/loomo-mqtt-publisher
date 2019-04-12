@@ -19,7 +19,6 @@ var UserSchema = new mongoose.Schema({
             type : Number,
             default : Date.now
         },
-        accuracy : Number,
         mapName : String,
         destination : String,
         mode : String

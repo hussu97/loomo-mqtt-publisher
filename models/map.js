@@ -4,12 +4,26 @@ mongoose.connect("mongodb://localhost/senior-design", { useNewUrlParser: true })
 
 var doorSchema = new mongoose.Schema({
     name : String,
-    corners : {
-        0 : String,
-        1 : String,
-        2 : String,
-        3 : String
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
     }
+});
+
+var homeStationSchema = new mongoose.Schema({
+    name : String,
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
+    },
 });
 
 var obstacleSchema = new mongoose.Schema({
@@ -26,25 +40,22 @@ var destinationSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    corners : {
-        0 : String,
-        1 : String,
-        2 : String,
-        3 : String
+    x_coordinate : {
+        type : Number,
+        required : true
+    },
+    y_coordinate : {
+        type : Number,
+        required : true
     }
-
-})
+});
 
 var MapSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true
     },
-    cellWidth : {
-        type : Number,
-        required : true
-    },
-    cellHeight : {
+    cellSize : {
         type : Number,
         required : true
     },
@@ -65,6 +76,7 @@ var MapSchema = new mongoose.Schema({
         default : Date.now
     },
     destinations : [destinationSchema],
+    homeStations : [homeStationSchema],
     loomoIDs : [String]
 });
 
