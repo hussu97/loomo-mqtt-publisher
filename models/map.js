@@ -24,6 +24,10 @@ var homeStationSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
+    thetha : {
+        type : Number,
+        required : true
+    }
 });
 
 var obstacleSchema = new mongoose.Schema({
@@ -45,6 +49,10 @@ var destinationSchema = new mongoose.Schema({
         required : true
     },
     y_coordinate : {
+        type : Number,
+        required : true
+    },
+    thetha : {
         type : Number,
         required : true
     }

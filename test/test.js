@@ -84,6 +84,10 @@ test.createEB2Map = () => {
                 test.createDestinationObj('Hicham',7.148,28.5,N),
                 test.createDestinationObj('IT-Dept',7.148,28.5,N),
                 test.createDestinationObj('Entrance/Exit',8.2,19.99,N),
+                test.createDestinationObj('destA',11,23,N),
+                test.createDestinationObj('destB',13,21,N),
+                test.createDestinationObj('destC',15,23,E),
+                test.createDestinationObj('destD',14,23,S),
             ],
             homeStations : [
                 {
@@ -120,7 +124,8 @@ test.createSDLMap = () => {
                 {
                     name : 'homeA',
                     x_coordinate : test.convertToServerCoord(1.00),
-                    y_coordinate : test.convertToServerCoord(2.00)
+                    y_coordinate : test.convertToServerCoord(2.00),
+                    thetha : N
                 }
             ],
             obstacles : [
@@ -220,15 +225,27 @@ test.createTourDestinationObj = (destinationName, speech, order) => {
     }
 } 
 test.createSampleTour = () => {
+    // tour.create(
+    //     {
+    //         name : 'EB2 Tour',
+    //         tourName : 'EB2-Rotunda',
+    //         destinations : [
+    //             test.createTourDestinationObj('Praveena','This is the office of Miss Praveena and Mr Suresh. It is also the Computer Science and Engineering lab',1),
+    //             test.createTourDestinationObj('Elevator','You can go to the second floor or the basement from this elevator',2),
+    //             test.createTourDestinationObj('IoT-Lab','You can go forward and see all the cool rooms we have for you',3),
+    //             test.createTourDestinationObj('Hicham','Here we have the office of Dr. Hicham, and the IT-Department',4),
+    //         ]
+    //     }
+    // )
     tour.create(
         {
             name : 'EB2 Tour',
             mapName : 'EB2-Rotunda',
             destinations : [
-                test.createTourDestinationObj('Praveena','This is the office of Miss Praveena and Mr Suresh. It is also the Computer Science and Engineering lab',1),
-                test.createTourDestinationObj('Elevator','You can go to the second floor or the basement from this elevator',2),
-                test.createTourDestinationObj('IoT-Lab','You can go forward and see all the cool rooms we have for you',3),
-                test.createTourDestinationObj('Hicham','Here we have the office of Dr. Hicham, and the IT-Department',4),
+                test.createTourDestinationObj('destA','This is destination A',1),
+                test.createTourDestinationObj('destB','This is destination B',2),
+                test.createTourDestinationObj('destC','This is destination C',3),
+                test.createTourDestinationObj('destD','This is destination D',4),
             ]
         }
     )
