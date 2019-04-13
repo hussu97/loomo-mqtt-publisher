@@ -29,7 +29,7 @@ if(TEST){
     //test.createSampleUser();
     //test.createSampleBeacons();
     //test.findSampleCenter();
-    test.createSampleTour();
+    //test.createSampleTour();
     //test.createSDLMap();
 }
 
