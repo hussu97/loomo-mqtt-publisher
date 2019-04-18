@@ -5,6 +5,7 @@ var mqtt            = require('mqtt'),
     mware           = require('./middleware/middleware'),
     loomoMessenger  = require('./routes/loomo'),
     mobileMessenger = require('./routes/mobile'),
+    rPiMessenger = require('./routes/rpi'),
     TEST            = true,
     ERROR           = true;
 
@@ -37,6 +38,7 @@ client.on('connect', (packetInfo) => { // When connected
     mware.writeLog(new Date().toString() + ' Connected to MQTT Server');
     loomoMessenger.run(client,mware);
     mobileMessenger.run(client,mware);
+    rPiMessenger.run(client,mware);
 });
 
 client.on("error", (error) => { 

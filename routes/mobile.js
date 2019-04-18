@@ -10,9 +10,10 @@ mobileMessenger.run = (client, mware) => {
     client.subscribe(`${C.M2S}/#`);
 
     client.on('message', (topic, message, packet) => {
-        var JSONMessage = JSON.parse(message);
-        if (topic.startsWith(`${C.M2S}`))
+        if (topic.startsWith(`${C.M2S}`)){
             mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
+            var JSONMessage = JSON.parse(message);
+        }
         switch (topic) {
             case `${C.M2S}/${C.getMapDestinations}`:
                 mapDB.findOne({

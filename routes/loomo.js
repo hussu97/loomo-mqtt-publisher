@@ -8,10 +8,10 @@ loomoMessenger.run = (client, mware) => {
     client.subscribe(`${C.L2S}/#`);
 
     client.on('message', (topic, message, packet) => {
-        var JSONMessage = JSON.parse(message);
-        if (topic.startsWith(`${C.L2S}`))
+        if (topic.startsWith(`${C.L2S}`)){
             mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
-
+            var JSONMessage = JSON.parse(message);
+        }
         switch (topic) {
             case `${C.L2S}/${C.getMap}`:
                 userDB.findOne({
