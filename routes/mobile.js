@@ -85,20 +85,22 @@ mobileMessenger.run = (client, mware) => {
                                             .then((map) => {
                                                 // JSONMessage.signalsArray is an array of key-value pairs
                                                 // the key is the beacon ID and the value is an array of RSSIs
-                                                const signalsArray = JSONMessage.beaconSignals
-                                                    .map((entry) => {
-                                                        entryArray = Object.entries(entry)[0];
-                                                        console.log("Entry: ", JSON.stringify(entryArray));
-                                                        const signals = JSON.parse(entryArray[1]);
-                                                        return [entryArray[0], mware.getDistance(signals)];
-                                                    });
+                                                // const signalsArray = JSONMessage.beaconSignals
+                                                //     .map((entry) => {
+                                                //         entryArray = Object.entries(entry)[0];
+                                                //         console.log("Entry: ", JSON.stringify(entryArray));
+                                                //         const signals = JSON.parse(entryArray[1]);
+                                                //         return [entryArray[0], mware.getDistance(signals)];
+                                                //     });
 
-                                                // sorts by signal strength in ascending order
-                                                signalsArray.sort((lhs, rhs) => {
-                                                    return rhs[1] - lhs[1];
-                                                });
+                                                // // sorts by signal strength in ascending order
+                                                // signalsArray.sort((lhs, rhs) => {
+                                                //     return rhs[1] - lhs[1];
+                                                // });
 
-                                                const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
+                                                // const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
+                                                
+                                                const beaconId = JSONMessage.eaconId
 
                                                 beaconDB.findOne({
                                                         id: beaconId
@@ -108,10 +110,10 @@ mobileMessenger.run = (client, mware) => {
                                                         var msg = {
                                                             clientID: JSONMessage.clientID,
                                                             loomoID: loomo.id,
-                                                            user_x_coordinate: 10,
-                                                            user_y_coordinate: 23,
-                                                            //user_x_coordinate : beaconObj.x_coordinate,
-                                                            //user_y_coordinate : beaconObj.y_coordinate,      
+                                                            // user_x_coordinate: 10,
+                                                            // user_y_coordinate: 23,
+                                                            user_x_coordinate : beaconObj.x_coordinate,
+                                                            user_y_coordinate : beaconObj.y_coordinate,      
                                                             mode: JSONMessage.mode
                                                         }
                                                         if (JSONMessage.mode == "guide") {
