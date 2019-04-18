@@ -147,7 +147,7 @@ test.createEB2Map = () => {
             homeStations : [
                 {
                     name : 'homeA',
-                    x_coordinate : test.convertToServerCoord(9.553),
+                    x_coordinate : test.convertToServerCoord(19.553),
                     y_coordinate : test.convertToServerCoord(18.308),
                     thetha : N
                 }
@@ -247,33 +247,27 @@ test.createObstacleObj = (x1,x2,y1,y2) => {
     }
 }
 
-test.createBeaconObj = (id, mapName, height, corner,x_coordinate,y_coordinate) => {
+test.createBeaconObj = (id, name,x_coordinate,y_coordinate) => {
     return {
         id : id,
-        mapName : mapName,
-        height : height,
-        corners : {
-            0 : corner,
-            1 : corner,
-            2 : corner,
-            3 : corner
-        },
-        x_coordinate : x_coordinate,
-        y_coordinate : y_coordinate
+        mapName : 'EB2-Rotunda',
+        x_coordinate : test.convertToServerCoord(x_coordinate),
+        y_coordinate : test.convertToServerCoord(y_coordinate),
+        name : name
     };
 }
 
 test.createSampleBeacons = () => {
     beacon.create(
         [
-        test.createBeaconObj("59bfdda585767280f886db284653ee35", "EB1-Rotunda", 24.56, '4,5',1,6),
-        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", "EB1-Rotunda", 24.56, '1,5',2,6),
-        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", "EB1-Rotunda", 24.56, '2,5',3,6),
-        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", "EB1-Rotunda", 24.56, '6,5',4,6),
-        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", "EB1-Rotunda", 24.56, '6,5',5,6),
-        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", "EB1-Rotunda", 24.56, '6,5',6,6),
-        test.createBeaconObj("6a811095d963f29290ea5371b4177020", "EB1-Rotunda", 24.56, '6,5',7,6),
-        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", "EB1-Rotunda", 24.56, '6,5',8,6)
+        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", 'Blueberry B',20,25),
+        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", 'Coconut B',25,27),
+        test.createBeaconObj("59bfdda585767280f886db284653ee35", 'Icy B',20.7,28.5),
+        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", 'Mint B',11,25),
+        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", 'Blueberry A',15,11),
+        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", 'Coconut A',20,12),
+        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", 'Icy A',21,20),
+        test.createBeaconObj("6a811095d963f29290ea5371b4177020", 'Mint A',19.5,18.3),
         ], (err, newBeacons) => {
             if(err) console.log('Error in creating beacons: '+err);
         }
@@ -302,29 +296,29 @@ test.createTourDestinationObj = (destinationName, speech, order) => {
     }
 } 
 test.createSampleTour = () => {
-    // tour.create(
-    //     {
-    //         name : 'EB2 Tour',
-    //         tourName : 'EB2-Rotunda',
-    //         destinations : [
-    //             test.createTourDestinationObj('Praveena','This is the office of Miss Praveena and Mr Suresh. It is also the Computer Science and Engineering lab',1),
-    //             test.createTourDestinationObj('Elevator','You can go to the second floor or the basement from this elevator',2),
-    //             test.createTourDestinationObj('IoT-Lab','You can go forward and see all the cool rooms we have for you',3),
-    //             test.createTourDestinationObj('Hicham','Here we have the office of Dr. Hicham, and the IT-Department',4),
-    //         ]
-    //     }
-    // )
     tour.create(
         {
             name : 'EB2 Tour',
             mapName : 'EB2-Rotunda',
             destinations : [
-                test.createTourDestinationObj('destA','This is destination A',1),
-                test.createTourDestinationObj('destB','This is destination B',2),
-                test.createTourDestinationObj('destC','This is destination C',3),
-                test.createTourDestinationObj('destD','This is destination D',4),
+                test.createTourDestinationObj('Praveena','This is the office of Miss Praveena and Mr Suresh. It is also the Computer Science and Engineering lab',1),
+                test.createTourDestinationObj('Elevator','You can go to the second floor or the basement from this elevator',2),
+                test.createTourDestinationObj('IoT-Lab','You can go forward and see all the cool rooms we have for you',3),
+                test.createTourDestinationObj('Hicham','Here we have the office of Dr. Hicham, and the IT-Department',4),
             ]
         }
     )
+    // tour.create(
+    //     {
+    //         name : 'EB2 Tour',
+    //         mapName : 'EB2-Rotunda',
+    //         destinations : [
+    //             test.createTourDestinationObj('destA','This is destination A',1),
+    //             test.createTourDestinationObj('destB','This is destination B',2),
+    //             test.createTourDestinationObj('destC','This is destination C',3),
+    //             test.createTourDestinationObj('destD','This is destination D',4),
+    //         ]
+    //     }
+    // )
 }
 module.exports = test;

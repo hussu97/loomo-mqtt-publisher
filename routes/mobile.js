@@ -24,7 +24,8 @@ mobileMessenger.run = (client, mware) => {
                         var msg = {
                             clientID: JSONMessage.clientID,
                             destinations: map.destinations,
-                            mapName: map.name
+                            mapName: map.name,
+                            beacons : map.beaconIDs
                         }
                         client.publish(`${C.S2M}/${C.getMapDestinations}`, JSON.stringify(msg), () => {});
                         mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.getMapDestinations}` + "'");
@@ -101,10 +102,10 @@ mobileMessenger.run = (client, mware) => {
 
                                                 // const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
                                                 
-                                                const beaconId = JSONMessage.eaconId
+                                                const beaconID = JSONMessage.beaconID
 
                                                 beaconDB.findOne({
-                                                        id: beaconId
+                                                        id: beaconID
                                                     })
                                                     .exec()
                                                     .then((beaconObj) => {
