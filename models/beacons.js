@@ -7,16 +7,6 @@ var BeaconSchema = new mongoose.Schema({
         type: String,
         required : true
     },
-    height : {
-        type : Number,
-        required : true
-    },
-    corners : {
-        0 : String,
-        1 : String,
-        2 : String,
-        3 : String
-    },
     x_coordinate : {
         type : Number,
         required : true
@@ -25,7 +15,8 @@ var BeaconSchema = new mongoose.Schema({
         type : Number,
         required : true
     },
-    mapName : String
+    mapName : String,
+    name : String,
 });
 
-module.exports = mongoose.model("Beacon",BeaconSchema);
+module.exports = mongoose.model("Beacon", BeaconSchema);
