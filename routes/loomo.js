@@ -9,8 +9,11 @@ loomoMessenger.run = (client, mware) => {
 
     client.on('message', (topic, message, packet) => {
         if (topic.startsWith(`${C.L2S}`)){
-            mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
-            var JSONMessage = JSON.parse(message);
+            if(!topic.startsWith(`${C.L2SA}`)){
+                mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
+                var JSONMessage = JSON.parse(message);
+            }
+            
         }
         switch (topic) {
             case `${C.L2S}/${C.getMap}`:

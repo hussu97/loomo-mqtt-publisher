@@ -3,14 +3,15 @@ var C = require('../constants'),
     userDB = require('../models/user'),
     mapDB = require('../models/map'),
     tourDB = require('../models/tours'),
-    beaconDB = require('../models/beacons');
+    beaconDB = require('../models/beacons'),
+    test = require('../test/test');
 
 var mobileMessenger = {}
 mobileMessenger.run = (client, mware) => {
     client.subscribe(`${C.M2S}/#`);
 
     client.on('message', (topic, message, packet) => {
-        if (topic.startsWith(`${C.M2S}`)){
+        if (topic.startsWith(`${C.M2S}`)) {
             mware.writeLog(new Date().toString() + " Received '" + message + "' on '" + topic + "'");
             var JSONMessage = JSON.parse(message);
         }
@@ -25,7 +26,7 @@ mobileMessenger.run = (client, mware) => {
                             clientID: JSONMessage.clientID,
                             destinations: map.destinations,
                             mapName: map.name,
-                            beacons : map.beaconIDs
+                            beacons: map.beaconIDs
                         }
                         client.publish(`${C.S2M}/${C.getMapDestinations}`, JSON.stringify(msg), () => {});
                         mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg) + "' to '" + `${C.S2M}/${C.getMapDestinations}` + "'");
@@ -101,7 +102,7 @@ mobileMessenger.run = (client, mware) => {
                                                 // });
 
                                                 // const [beaconId, signal] = [signalsArray[0][0], signalsArray[0][1]];
-                                                
+
                                                 const beaconID = JSONMessage.beaconID
 
                                                 beaconDB.findOne({
@@ -112,10 +113,10 @@ mobileMessenger.run = (client, mware) => {
                                                         var msg = {
                                                             clientID: JSONMessage.clientID,
                                                             loomoID: loomo.id,
-                                                            // user_x_coordinate: 10,
-                                                            // user_y_coordinate: 23,
-                                                            user_x_coordinate : beaconObj.x_coordinate,
-                                                            user_y_coordinate : beaconObj.y_coordinate,      
+                                                            user_x_coordinate: Math.round(test.convertToServerCoord(4.6)),
+                                                            user_y_coordinate: Math.round(test.convertToServerCoord(9.1)),
+                                                            //user_x_coordinate: beaconObj.x_coordinate,
+                                                            //user_y_coordinate: beaconObj.y_coordinate,
                                                             mode: JSONMessage.mode
                                                         }
                                                         if (JSONMessage.mode == "guide") {
@@ -124,13 +125,13 @@ mobileMessenger.run = (client, mware) => {
                                                                     return element;
                                                                 }
                                                             });
-                                                            msg.destination_x_coordinate = 11,
-                                                            msg.destination_y_coordinate = 23,
-                                                            msg.destination_thetha = -3.1415,
-                                                            //msg.destination_thetha = destinationObj.thetha
-                                                            //msg.destination_x_coordinate = destinationObj.x_coordinate
-                                                            //msg.destination_y_coordinate = destinationObj.y_coordinate
-                                                            msg.destination_name = destinationObj.name
+                                                            //msg.destination_x_coordinate = 11,
+                                                                //msg.destination_y_coordinate = 23,
+                                                                //msg.destination_thetha = -3.1415,
+                                                                msg.destination_thetha = destinationObj.thetha
+                                                                msg.destination_x_coordinate = destinationObj.x_coordinate
+                                                                msg.destination_y_coordinate = destinationObj.y_coordinate
+                                                                msg.destination_name = destinationObj.name
                                                             client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                                             mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
                                                         } else if (JSONMessage.mode == "tour") {

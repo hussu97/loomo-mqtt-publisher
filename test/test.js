@@ -110,7 +110,7 @@ test.createSampleMap = () => {
 // }
 
 test.createEB2Map = () => {
-    map.create(
+    map.findOneAndUpdate({name: 'EB2-Rotunda'}, 
         {
             name : 'EB2-Rotunda',
             cellSize : cellSize,
@@ -127,50 +127,117 @@ test.createEB2Map = () => {
                 '283acdcf5be28c0f71dc4b6a84219d29'
             ],
             destinations : [
-                test.createDestinationObj('TV Wall',24.258,20,S),
-                test.createDestinationObj('EB2-125',9.753,13.5,W),
-                test.createDestinationObj('Praveena',9.753,13.5,W),
-                test.createDestinationObj('Suresh',9.753,13.5,W),
-                test.createDestinationObj('Washroom',15.06,8.352,W),
-                test.createDestinationObj('Stairs',15.06,8.352,W),
-                test.createDestinationObj('Elevator',17.323,11.183,W),
-                test.createDestinationObj('Cisco Lab',19.4,11.256,W),
-                test.createDestinationObj('Wissam',19.4,11.256,W),
-                test.createDestinationObj('EB2-109',25.258,27,E),
-                test.createDestinationObj('EB2-108',25.258,27,E),
-                test.createDestinationObj('EB2-104',20.75,29,E),
-                test.createDestinationObj('EB2-103',12.519,29,E),
-                test.createDestinationObj('Hicham',8.153,28.7,E),
-                test.createDestinationObj('IT-Dept',8.153,28.7,E),
-                test.createDestinationObj('Entrance/Exit',8.553,20,N)
+                test.createDestinationObj('TV Wall',21.858,20,S),//
+                test.createDestinationObj('EB2-125',9.7,14.8,W),//
+                test.createDestinationObj('Praveena',9.7,14.8,W),
+                test.createDestinationObj('Suresh',9.7,14.8,W),
+                test.createDestinationObj('Washroom',15.16,12.104,W),//
+                test.createDestinationObj('Stairs',15.16,12.104,W),//
+                test.createDestinationObj('Elevator',17.16,12.104,W),
+                test.createDestinationObj('Cisco Lab',18.46,12.104,W),//
+                test.createDestinationObj('Wissam',18.46,12.104,W),
+                test.createDestinationObj('EB2-109',23.4,29.104,E),//
+                test.createDestinationObj('EB2-108',23.4,29.104,E),
+                test.createDestinationObj('EB2-104',18.4,29.104,E),//
+                test.createDestinationObj('EB2-103',12.4,29.104,E),//
+                test.createDestinationObj('Hicham',9.46,26.90,E),//
+                test.createDestinationObj('IT-Dept',9.46,26.90,E),
+                test.createDestinationObj('Entrance/Exit',8.26,20,N)
             ],
             homeStations : [
                 {
                     name : 'homeA',
-                    x_coordinate : test.convertToServerCoord(19.553),
-                    y_coordinate : test.convertToServerCoord(18.308),
+                    x_coordinate : test.convertToServerCoord(9.86),
+                    y_coordinate : test.convertToServerCoord(17.304),
                     thetha : N
                 }
             ],
+            timeStamp : Date.now(),
             obstacles : [
                 test.createObstacleObj(0,14.06,0,10.104),//1
-                test.createObstacleObj(0,6.354,10.104,12.808),//2
-                test.createObstacleObj(0,7.553,12.808,28.603),//3
-                test.createObstacleObj(0,5.351,28.603,30),//4
-                test.createObstacleObj(0,17.440,30,40.380),//5
-                test.createObstacleObj(17.440,23.359,31,40.380),//6
-                test.createObstacleObj(23.349,36.220,30,40.380),//7
-                test.createObstacleObj(27.75,36.220,26.686,30),//8
-                test.createObstacleObj(26.258,36.220,0,26.686),//9
-                test.createObstacleObj(23.053,26.258,0,10.183),//10
-                test.createObstacleObj(20.353,23.053,0,8.879),//11
-                test.createObstacleObj(16.067,20.353,0,10.183),//12
-                test.createObstacleObj(20.375,24.875,11.402,14),//13
-                test.createObstacleObj(21.75,24.75,28,30),//14
-                test.createObstacleObj(8.519,11.519,27,30),//15
-                test.createObstacleObj(9.14,14.54,10.104,12.5),//16
-                test.createObstacleObj(7.553,8.753,12.808,17.308),//17
+                test.createObstacleObj(0,3.86,10.104,12.808),//2
+                test.createObstacleObj(0,6.26,12.808,32.304),//3
+                test.createObstacleObj(0,5.06,32.304,33.804),//4
+                test.createObstacleObj(0,17.36,33.804,40.380),//5
+                test.createObstacleObj(17.36,23.06,33.804,40.380),//6 // can be combined with 5
+                test.createObstacleObj(23.06,36.220,33.804,40.380),//7
+                test.createObstacleObj(25.46,36.220,0,33.804),//8
+                // test.createObstacleObj(26.258,36.220,0,26.686),//9
+                // test.createObstacleObj(23.053,26.258,0,10.183),//10
+                test.createObstacleObj(16.16,25.46,0,10.104),//11
+                // test.createObstacleObj(16.16,20.66,0,10.104),//12
+                test.createObstacleObj(20.46,25.46,10.104,13.104),//13
+                test.createObstacleObj(21.46,25.46,31.104,33.804),//14
+                test.createObstacleObj(6.26,10.46,31.104,33.804),//15
+                test.createObstacleObj(6.26,12.56,10.104,12.8),//16
+                test.createObstacleObj(6.26,7.76,12.804,17.604),//17
+                test.createObstacleObj(23.858,26.258,17.604,21.804),//18
+                test.createObstacleObj(6.26,7.46,23.304,26.904)//19
             ]
+        }, (err, newMap) => {
+            console.log(newMap)
+            if (err) console.log('Error in creating map: '+err);
+        }
+    )
+}
+
+test.createEB2v2Map = () => {
+    map.findOneAndUpdate({name: 'EB2v2-Rotunda'}, 
+        {
+            name : 'EB2v2-Rotunda',
+            cellSize : cellSize,
+            rows : test.convertToServerCoord(20.8),
+            columns : test.convertToServerCoord(20.5),
+            beaconIDs : [
+                '59bfdda585767280f886db284653ee35',
+                '3c52a5930c34db229451868164d7fc13',
+                'e158516ea666f214c38d5464c5440d1f',
+                '5812ca89ff64bf356564f5ee641f6f1b',
+                'd9b0b6f879088d8f767576e07841e43a',
+                '4454649ebee76a8e5f23a202825c8401',
+                '6a811095d963f29290ea5371b4177020',
+                '283acdcf5be28c0f71dc4b6a84219d29'
+            ],
+            homeStations : [
+                {
+                    name : 'homeA',
+                    x_coordinate : test.convertToServerCoord(4.6),
+                    y_coordinate : test.convertToServerCoord(9.1),
+                    thetha : N
+                }
+            ],
+            timeStamp : Date.now(),
+            obstacles : [
+                test.createObstacleObj(0,20.8,0,1.0),//1-o
+                test.createObstacleObj(0,1.0,0,20.5),//2-o
+                test.createObstacleObj(0,20.8,19.5,20.5),//3-o
+                test.createObstacleObj(19.8,20.8,0,20.5),//4-o
+                test.createObstacleObj(1,2.8,3.4,8.8),//1
+                test.createObstacleObj(1,7.6,1,3.5),//2 
+                test.createObstacleObj(14.5,20.8,1,4),//3
+                test.createObstacleObj(17.49,20.8,8.2,13),//4
+                test.createObstacleObj(16.4,20.8,18.1,20.5),//5
+                test.createObstacleObj(1,5.2,17.49,20.5),//6
+                test.createObstacleObj(1,2.2,13.9,20.5),//7
+            ],
+            destinations : [
+                test.createDestinationObj('TV Wall',18.1,12.7,S),//
+                test.createDestinationObj('EB2-125',3.7,4.9,W),//
+                test.createDestinationObj('Praveena',3.7,4.9,W),
+                test.createDestinationObj('Suresh',3.7,4.9,W),
+                test.createDestinationObj('Washroom',9.4,2.8,W),//
+                test.createDestinationObj('Stairs',9.4,2.8,W),//
+                test.createDestinationObj('Elevator',11.8,2.8,W),
+                test.createDestinationObj('Cisco Lab',13.6,2.8,W),//
+                test.createDestinationObj('Wissam',13.6,2.8,W),
+                test.createDestinationObj('EB2-109',19,16.9,E),//
+                test.createDestinationObj('EB2-108',19,16.9,E),
+                test.createDestinationObj('EB2-104',16.6,16.9,E),//
+                test.createDestinationObj('EB2-103',6.4,16.9,E),//
+                test.createDestinationObj('Hicham',2.8,16.9,E),//
+                test.createDestinationObj('IT-Dept',2.8,16.9,E),
+                test.createDestinationObj('Entrance/Exit',2.5,11.2,N)
+            ],
         }, (err, newMap) => {
             if (err) console.log('Error in creating map: '+err);
         }
@@ -260,14 +327,14 @@ test.createBeaconObj = (id, name,x_coordinate,y_coordinate) => {
 test.createSampleBeacons = () => {
     beacon.create(
         [
-        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", 'Blueberry B',20,25),
-        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", 'Coconut B',25,27),
-        test.createBeaconObj("59bfdda585767280f886db284653ee35", 'Icy B',20.7,28.5),
-        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", 'Mint B',11,25),
-        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", 'Blueberry A',15,11),
-        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", 'Coconut A',20,12),
-        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", 'Icy A',21,20),
-        test.createBeaconObj("6a811095d963f29290ea5371b4177020", 'Mint A',19.5,18.3),
+        test.createBeaconObj("e158516ea666f214c38d5464c5440d1f", 'Blueberry B',10,10.9),
+        test.createBeaconObj("3c52a5930c34db229451868164d7fc13", 'Coconut B',19,16.9),
+        test.createBeaconObj("59bfdda585767280f886db284653ee35", 'Icy B',11.5,16.9),
+        test.createBeaconObj("5812ca89ff64bf356564f5ee641f6f1b", 'Mint B',2.8,16.9),
+        test.createBeaconObj("d9b0b6f879088d8f767576e07841e43a", 'Blueberry A',9.4,2.8),
+        test.createBeaconObj("4454649ebee76a8e5f23a202825c8401", 'Coconut A',13.6,2.8),
+        test.createBeaconObj("283acdcf5be28c0f71dc4b6a84219d29", 'Icy A',18.1,12.7),
+        test.createBeaconObj("6a811095d963f29290ea5371b4177020", 'Mint A',3.7,6.1),
         ], (err, newBeacons) => {
             if(err) console.log('Error in creating beacons: '+err);
         }
@@ -296,16 +363,24 @@ test.createTourDestinationObj = (destinationName, speech, order) => {
     }
 } 
 test.createSampleTour = () => {
-    tour.create(
+    tour.findOneAndUpdate({mapName:'EB2v2-Rotunda'},
         {
             name : 'EB2 Tour',
-            mapName : 'EB2-Rotunda',
+            mapName : 'EB2v2-Rotunda',
             destinations : [
-                test.createTourDestinationObj('Praveena','This is the office of Miss Praveena and Mr Suresh. It is also the Computer Science and Engineering lab',1),
-                test.createTourDestinationObj('Elevator','You can go to the second floor or the basement from this elevator',2),
-                test.createTourDestinationObj('IoT-Lab','You can go forward and see all the cool rooms we have for you',3),
-                test.createTourDestinationObj('Hicham','Here we have the office of Dr. Hicham, and the IT-Department',4),
+                test.createTourDestinationObj('EB2-125','Here is Praveena',1),
+                test.createTourDestinationObj('Stairs','Here is stairs',2),
+                test.createTourDestinationObj('Elevator','Here is Elevator',3),
+                test.createTourDestinationObj('Wissam','Here is Wissam',4),
+                test.createTourDestinationObj('TV Wall','Here is TV',5),
+                test.createTourDestinationObj('EB2-109','Here is EB2-109',6),
+                test.createTourDestinationObj('EB2-104','Here is EB2-104',7),
+                test.createTourDestinationObj('EB2-103','Here is EB2-103',8),
+                test.createTourDestinationObj('Hicham','Here is Hicham',9),
+                test.createTourDestinationObj('Entrance/Exit','Here is Entrance',10),
             ]
+        },(err,newTour) =>{
+            if(err) console.log(err);
         }
     )
     // tour.create(
