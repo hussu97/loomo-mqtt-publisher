@@ -15,7 +15,7 @@ var options = {
     host: 'mqtt://m24.cloudmqtt.com',
     clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
     username: 'gwvgvrbb',
-    password: '8etHaFLlD0wy',
+    password: 'HoftA-90m-BL',
     keepalive: 60,
     reconnectPeriod: 1000,
     protocolId: 'MQIsdp',
