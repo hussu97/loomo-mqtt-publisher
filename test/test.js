@@ -371,13 +371,7 @@ test.createSampleTour = () => {
                 test.createTourDestinationObj('EB2-125','Here is Praveena',1),
                 test.createTourDestinationObj('Stairs','Here is stairs',2),
                 test.createTourDestinationObj('Elevator','Here is Elevator',3),
-                test.createTourDestinationObj('Wissam','Here is Wissam',4),
-                test.createTourDestinationObj('TV Wall','Here is TV',5),
-                test.createTourDestinationObj('EB2-109','Here is EB2-109',6),
-                test.createTourDestinationObj('EB2-104','Here is EB2-104',7),
-                test.createTourDestinationObj('EB2-103','Here is EB2-103',8),
-                test.createTourDestinationObj('Hicham','Here is Hicham',9),
-                test.createTourDestinationObj('Entrance/Exit','Here is Entrance',10),
+                test.createTourDestinationObj('Cisco Lab','Here is Wissam',4)
             ]
         },(err,newTour) =>{
             if(err) console.log(err);

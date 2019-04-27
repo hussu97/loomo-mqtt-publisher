@@ -113,10 +113,10 @@ mobileMessenger.run = (client, mware) => {
                                                         var msg = {
                                                             clientID: JSONMessage.clientID,
                                                             loomoID: loomo.id,
-                                                            x_user: Math.round(test.convertToServerCoord(7)),
-                                                            y_user: Math.round(test.convertToServerCoord(9)),
-                                                            // user_x_coordinate: beaconObj.x_coordinate,
-                                                            // user_y_coordinate: beaconObj.y_coordinate,
+                                                            x_user: Math.round(test.convertToServerCoord(5)),
+                                                            y_user: Math.round(test.convertToServerCoord(8)),
+                                                            // x_user: beaconObj.x_coordinate,
+                                                            // y_user: beaconObj.y_coordinate,
                                                             mode: JSONMessage.mode
                                                         }
                                                         if (JSONMessage.mode == "guide") {
@@ -125,12 +125,12 @@ mobileMessenger.run = (client, mware) => {
                                                                     return element;
                                                                 }
                                                             });
-                                                            msg.x_destination = 9,
-                                                                msg.y_destination = 9,
-                                                                msg.thetha_destination = 0,
-                                                                // msg.destination_thetha = destinationObj.thetha
-                                                                // msg.destination_x_coordinate = destinationObj.x_coordinate
-                                                                // msg.destination_y_coordinate = destinationObj.y_coordinate
+                                                                // msg.x_destination = 12,
+                                                                // msg.y_destination = 5,
+                                                                // msg.thetha_destination = 0,
+                                                                msg.thetha_destination = destinationObj.thetha
+                                                                msg.x_destination = destinationObj.x_coordinate
+                                                                msg.y_destination = destinationObj.y_coordinate
                                                                 msg.destination_name = destinationObj.name
                                                             client.publish(`${C.S2L}/${C.loomoCall}`, JSON.stringify(msg), () => {});
                                                             mware.writeLog(new Date().toString() + " Sent '" + JSON.stringify(msg) + "' to '" + `${C.S2L}/${C.loomoCall}` + "'");
