@@ -1,7 +1,9 @@
 # Loomo Mqtt Publisher
 
-A nodejs server, enabling communication between the Loomo applications and the mobile applications.
-
+A nodejs server, enabling communication between the Loomo applications and the mobile applications.  
+**Project for - CMP490/491 - Senior Design I/II**  
+**Project Duration - September 2018-May 2019**  
+**Collaborators - [Gehad Aboarab](https://github.com/gehad-aboarab), [Omar Sobhy](https://github.com/Svitkona/), [Mohammad Atallah](https://github.com/mhdatallah/)**  
 ### What is Loomo
 
 [![Loomo Image](https://shop.segway.com/uk-en/347-large_default/segway-loomo.jpg)](https://loomo.com)
