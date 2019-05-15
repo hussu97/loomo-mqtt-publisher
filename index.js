@@ -6,8 +6,7 @@ var mqtt            = require('mqtt'),
     loomoMessenger  = require('./routes/loomo'),
     mobileMessenger = require('./routes/mobile'),
     rPiMessenger = require('./routes/rpi'),
-    adminMessenger = require('./routes/admin'),
-    TEST            = false,
+    TEST            = false;
 
 var options = {
     port: 17852 ,
