@@ -7,15 +7,14 @@ var mqtt            = require('mqtt'),
     mobileMessenger = require('./routes/mobile'),
     rPiMessenger = require('./routes/rpi'),
     adminMessenger = require('./routes/admin'),
-    TEST            = true,
-    ERROR           = true;
+    TEST            = false,
 
 var options = {
     port: 17852 ,
     host: 'mqtt://m24.cloudmqtt.com',
     clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-    username: 'gwvgvrbb',
-    password: 'HoftA-90m-BL',
+    username: 'config@username',
+    password: 'config@password',
     keepalive: 60,
     reconnectPeriod: 1000,
     protocolId: 'MQIsdp',
@@ -27,8 +26,8 @@ var options2 = {
     port: 11466 ,
     host: 'mqtt://m16.cloudmqtt.com',
     clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
-    username: 'wbsixour',
-    password: '4oK5q8iYUy59',
+    username: 'config@username2',
+    password: 'config@password2',
     keepalive: 60,
     reconnectPeriod: 1000,
     protocolId: 'MQIsdp',
@@ -40,21 +39,20 @@ var client = mqtt.connect('mqtt://m24.cloudmqtt.com', options);
 var client2 = mqtt.connect('mqtt://m16.cloudmqtt.com',options2);
 
 if(TEST){
-    //test.createSampleMap();
-    //test.createEB2Map();
+    test.createSampleMap();
+    test.createEB2Map();
     test.createEB2v2Map();
-    //test.createSampleUser();
-    //test.createSampleBeacons();
-    //test.findSampleCenter();
+    test.createSampleUser();
+    test.createSampleBeacons();
+    test.findSampleCenter();
     test.createSampleTour();
-    //test.createSDLMap();
+    test.createSDLMap();
 }
 
 client.on('connect', (packetInfo) => { // When connected
     mware.writeLog(new Date().toString() + ' Connected to MQTT Server');
     loomoMessenger.run(client,mware);
     mobileMessenger.run(client,mware);
-    //rPiMessenger.run(client,mware);
     adminMessenger.run(client,mware);
 });
 client2.on('connect',(packetInfo)=> {

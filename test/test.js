@@ -6,7 +6,7 @@ var map      = require('../models/map'),
     BTTrilat = require('../trilateration/index');
 
 const floorPlanToReal = 100;
-const cellSize = 100;
+const cellSize = 70;
 const N = 0,
 E = -Math.PI/2,
 W = Math.PI/2,
@@ -201,8 +201,8 @@ test.createEB2v2Map = () => {
             homeStations : [
                 {
                     name : 'homeA',
-                    x_coordinate : test.convertToServerCoord(4.6),
-                    y_coordinate : test.convertToServerCoord(9.1),
+                    x_coordinate : test.convertToServerCoord(4.2),
+                    y_coordinate : test.convertToServerCoord(8.4),
                     thetha : N
                 }
             ],
@@ -368,10 +368,10 @@ test.createSampleTour = () => {
             name : 'EB2 Tour',
             mapName : 'EB2v2-Rotunda',
             destinations : [
-                test.createTourDestinationObj('EB2-125','Here is Praveena',1),
-                test.createTourDestinationObj('Stairs','Here is stairs',2),
-                test.createTourDestinationObj('Elevator','Here is Elevator',3),
-                test.createTourDestinationObj('Cisco Lab','Here is Wissam',4)
+                test.createTourDestinationObj('EB2-125','I have reached one two five. You can also visit Miss Praveena and Mister Suresh office over here',1),
+                test.createTourDestinationObj('Stairs','I have reached the stairs and the washroom. You can access the other floors from here',2),
+                test.createTourDestinationObj('Elevator','I have reached the elevator. This is quicker to access the other floors from',3),
+                test.createTourDestinationObj('Cisco Lab','I have reached the Cisco Lab. You can also visit Mister Wissam office from here',4)
             ]
         },(err,newTour) =>{
             if(err) console.log(err);

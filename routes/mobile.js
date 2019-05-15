@@ -113,10 +113,10 @@ mobileMessenger.run = (client, mware) => {
                                                         var msg = {
                                                             clientID: JSONMessage.clientID,
                                                             loomoID: loomo.id,
-                                                            x_user: Math.round(test.convertToServerCoord(5)),
-                                                            y_user: Math.round(test.convertToServerCoord(8)),
-                                                            // x_user: beaconObj.x_coordinate,
-                                                            // y_user: beaconObj.y_coordinate,
+                                                            // x_user: Math.round(test.convertToServerCoord(5)),
+                                                            // y_user: Math.round(test.convertToServerCoord(8)),
+                                                            x_user: Math.round(test.convertToServerCoord(beaconObj.x_coordinate)),
+                                                            y_user: Math.round(test.convertToServerCoord(beaconObj.y_coordinate)),
                                                             mode: JSONMessage.mode
                                                         }
                                                         if (JSONMessage.mode == "guide") {
